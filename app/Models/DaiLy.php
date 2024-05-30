@@ -21,5 +21,8 @@ class DaiLy extends Model
         'ma_so_thue',
         'dia_chi_kinh_doanh',
         'is_active',
+        'is_block',
+        'hash_active',
+        'hash_reset',
     ];
 }
