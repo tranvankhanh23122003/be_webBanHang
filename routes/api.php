@@ -23,3 +23,5 @@ Route::post('/admin/dai-ly/create',[DaiLyController::class, 'store']);
 Route::post('/admin/dai-ly/delete',[DaiLyController::class,'destroy']);
 Route::post('/admin/dai-ly/check-mail',[DaiLyController::class,'checkSlug']);
 Route::post('/admin/dai-ly/update',[DaiLyController::class,'update']);
+
+Route::post('/dai-ly/dang-nhap', [DaiLyController::class, 'dangNhap']);
