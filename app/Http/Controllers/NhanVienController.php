@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DaiLy;
+use App\Models\NhanVien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class DaiLyController extends Controller
+class NhanVienController extends Controller
 {
     public function getData()
     {
-        $data = DaiLy::get(); //Nghia la lay ra
+        $data = NhanVien::get(); //Nghia la lay ra
 
         return response()->json([
             'data' => $data
@@ -18,35 +18,33 @@ class DaiLyController extends Controller
     }
     public function store(Request $request)
     {
-        DaiLy::create([
-            'ho_va_ten' => $request->ho_va_ten,
-            'email' => $request->email,
+        NhanVien::create([
+            'email'         => $request->email,
+            'password'      => bcrypt($request->password),
+            'ho_va_ten'     => $request->ho_va_ten,
             'so_dien_thoai' => $request->so_dien_thoai,
-            'ngay_sinh' => $request->ngay_sinh,
-            'password' => bcrypt($request->password),
-            'ten_doanh_nghiep' => $request->ten_doanh_nghiep,
-            'ma_so_thue' => $request->ma_so_thue,
-            'dia_chi_kinh_doanh' => $request->dia_chi_kinh_doanh,
-
+            'dia_chi'       => $request->dia_chi,
+            'tinh_trang'    => $request->tinh_trang,
+            'id_quyen'      => $request->id_quyen,
         ]);
         return response()->json([
             'status' => true,
-            'message' => "Đã tạo mới đại lý " . $request->ho_va_ten . " thành công.",
+            'message' => "Đã tạo mới nhân viên " . $request->ho_va_ten . " thành công.",
         ]);
     }
     public function destroy(Request $request)
     {
         //table danh mục tìm id = $request->id và sau đó xóa nó đi
-        DaiLy::find($request->id)->delete();
+        NhanVien::find($request->id)->delete();
         return response()->json([
             'status' => true,
-            'message' => "Đã xóa đại lý" . $request->ho_va_ten . " thành công.",
+            'message' => "Đã xóa nhân viên" . $request->ho_va_ten . " thành công.",
         ]);
     }
     public function checkMail(Request $request)
     {
         $email = $request->email;
-        $check = DaiLy::where('email', $email)->first();
+        $check = NhanVien::where('email', $email)->first();
         if ($check) {
             return response()->json([
                 'status' => false,
@@ -55,42 +53,41 @@ class DaiLyController extends Controller
         } else {
             return response()->json([
                 'status' => true,
-                'message' => "Có thể thêm đại lý này.",
+                'message' => "Có thể thêm nhân viên này.",
             ]);
         }
     }
     public function update(Request $request)
     {
-        DaiLy::find($request->id)->update([
-            'ho_va_ten' => $request->ho_va_ten,
-            'email' => $request->email,
+        NhanVien::find($request->id)->update([
+            'email'         => $request->email,
+            'ho_va_ten'     => $request->ho_va_ten,
             'so_dien_thoai' => $request->so_dien_thoai,
-            'ngay_sinh' => $request->ngay_sinh,
-            'ten_doanh_nghiep' => $request->ten_doanh_nghiep,
-            'ma_so_thue' => $request->ma_so_thue,
-            'dia_chi_kinh_doanh' => $request->dia_chi_kinh_doanh,
+            'dia_chi'       => $request->dia_chi,
+            'tinh_trang'    => $request->tinh_trang,
+            'id_quyen'      => $request->id_quyen,
         ]);
         return response()->json([
             'status' => true,
-            'message' => "Đã update đại lý" . $request->ho_va_ten . " thành công.",
+            'message' => "Đã update nhân viên" . $request->ho_va_ten . " thành công.",
         ]);
     }
 
     public function dangNhap(Request $request)
     {
-        $check  =   Auth::guard('daily')->attempt([
+        $check  =   Auth::guard('nhanvien')->attempt([
             'email'     => $request->email,
             'password'  => $request->password
         ]);
 
         if ($check) {
             // Lấy thông tin tài khoản đã đăng nhập thành công
-            $daiLy  =   Auth::guard('daily')->user(); // Lấy được thông tin đại lý đã đăng nhập
+            $nhanVien  =   Auth::guard('nhanvien')->user(); // Lấy được thông tin nhân viên đã đăng nhập
 
             return response()->json([
                 'status'    => true,
                 'message'   => "Đã đăng nhập thành công!",
-                'token'     => $daiLy->createToken('token_dai_ly')->plainTextToken,
+                'token'     => $nhanVien->createToken('token_nhan_vien')->plainTextToken,
             ]);
         } else {
             return response()->json([
