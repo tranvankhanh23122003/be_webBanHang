@@ -17,6 +17,10 @@ return [
             'driver'    => 'session',
             'provider'  => 'dailyprovider',
         ],
+        'nhanvien' => [
+            'driver'    => 'session',
+            'provider'  => 'nhanvienprovider',
+        ],
     ],
 
     'providers' => [
@@ -27,6 +31,10 @@ return [
         'dailyprovider' => [
             'driver'    => 'eloquent',
             'model'     => \App\Models\DaiLy::class,
+        ],
+        'nhanvienprovider' => [
+            'driver'    => 'eloquent',
+            'model'     => \App\Models\NhanVien::class,
         ],
     ],
 

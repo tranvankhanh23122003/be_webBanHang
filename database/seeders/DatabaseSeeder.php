@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DaiLySeeding::class,
             DanhMucSeeding::class,
-            SanPhamSeeding::class
+            SanPhamSeeding::class,
+            NhanVienSeeding::class
         ]);
     }
 }
