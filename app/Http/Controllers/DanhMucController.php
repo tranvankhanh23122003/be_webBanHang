@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class DanhMucController extends Controller
 {
+    public function getDataOpen(){
+        $data = DanhMuc::where('tinh_trang', 1)->get(); //Nghia la lay ra
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+
     public function getData(){
         $data = DanhMuc::get(); //Nghia la lay ra
 
@@ -14,6 +22,7 @@ class DanhMucController extends Controller
             'data' => $data
         ]);
     }
+
     public function store(Request $request){
         DanhMuc::create([
             'ten_danh_muc' => $request->ten_danh_muc,
