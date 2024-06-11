@@ -71,6 +71,14 @@ class SanPhamController extends Controller
         ]);
     }
 
+    public function getDataNew()
+    {
+        $data = SanPham::orderBy('id', 'DESC')->take(10)->get();
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+
     public function getDataNoiBat()
     {
         $data = SanPham::where('is_noi_bat',1)->take(10)->get();

@@ -17,6 +17,7 @@ Route::post('/admin/danh-muc-update',[DanhMucController::class,'update']);
 
 Route::get('/san-pham/data-flash-sale', [SanPhamController::class,'getDataFlashSale']);
 Route::get('/san-pham/data-noi-bat', [SanPhamController::class,'getDataNoiBat']);
+Route::get('/san-pham/data-new', [SanPhamController::class,'getDataNew']);
 Route::get('/san-pham', [SanPhamController::class,'getData']);
 Route::post('/admin/san-pham',[SanPhamController::class,'store']);
 Route::post('/admin/san-pham/delete', [SanPhamController::class,'xoaSP']);
