@@ -96,4 +96,21 @@ class NhanVienController extends Controller
             ]);
         }
     }
+
+    public function kiemTraAdmin()
+    {
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        // Khi đang đăng nhập ở đây có thể là: Khách Hàng, Đại Lý, Admin
+        // Chúng phải kiểm tra $tai_khoan_dang_dang_nhap có phải là tài khoản Admin/Nhân Viên hay kihoong?
+        if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\NhanVien) {
+            return response()->json([
+                'status'    =>  true
+            ]);
+        } else {
+            return response()->json([
+                'status'    =>  false,
+                'message'   =>  'Bạn cần đăng nhập hệ thống trước'
+            ]);
+        }
+    }
 }
