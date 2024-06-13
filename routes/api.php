@@ -5,6 +5,7 @@ use App\Http\Controllers\DanhMucController;
 use App\Http\Controllers\KhachHangController;
 use App\Http\Controllers\NhanVienController;
 use App\Http\Controllers\SanPhamController;
+use App\Http\Controllers\SanPhamDaiLyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,14 +50,13 @@ Route::post('/admin/khach-hang/doi-trang-thai', [KhachHangController::class, 'do
 Route::post('/admin/khach-hang/update', [KhachHangController::class, 'updateTaiKhoan'])->middleware("NhanVienMiddle");
 Route::post('/admin/khach-hang/delete', [KhachHangController::class, 'deleteTaiKhoan'])->middleware("NhanVienMiddle");
 
-Route::get('/dai-ly/san-pham/data', [SanPhamController::class,'getDataDaiLy'])->middleware("DaiLyMiddle");
-Route::post('/dai-ly/san-pham/create',[SanPhamController::class,'storeDaiLy'])->middleware("DaiLyMiddle");
-Route::post('/dai-ly/san-pham/delete', [SanPhamController::class,'xoaSPDaiLy'])->middleware("DaiLyMiddle");
-Route::post('/dai-ly/san-pham/update',[SanPhamController::class,'updateDaiLy'])->middleware("DaiLyMiddle");
-Route::post('/dai-ly/san-pham/checkSlug',[SanPhamController::class,"checkSlugDaiLy"])->middleware("DaiLyMiddle");
-Route::post('/dai-ly/san-pham/chuyen-trang-thai-ban',[SanPhamController::class,"chuyenTrangThaiBanDaiLy"])->middleware("DaiLyMiddle");
-Route::post('/dai-ly/san-pham/chuyen-noi-bat',[SanPhamController::class,"chuyenNoiBatDaiLy"])->middleware("DaiLyMiddle");
-Route::post('/dai-ly/san-pham/chuyen-flash-sale',[SanPhamController::class,"chuyenFlashSaleDaiLy"])->middleware("DaiLyMiddle");
+Route::get('/dai-ly/san-pham/data', [SanPhamDaiLyController::class,'getData'])->middleware("DaiLyMiddle");
+Route::post('/dai-ly/san-pham/create',[SanPhamDaiLyController::class,'store'])->middleware("DaiLyMiddle");
+Route::post('/dai-ly/san-pham/delete', [SanPhamDaiLyController::class,'xoaSP'])->middleware("DaiLyMiddle");
+Route::post('/dai-ly/san-pham/update',[SanPhamDaiLyController::class,'update'])->middleware("DaiLyMiddle");
+Route::post('/dai-ly/san-pham/chuyen-trang-thai-ban',[SanPhamDaiLyController::class,"chuyenTrangThaiBan"])->middleware("DaiLyMiddle");
+Route::post('/dai-ly/san-pham/chuyen-noi-bat',[SanPhamDaiLyController::class,"chuyenNoiBat"])->middleware("DaiLyMiddle");
+Route::post('/dai-ly/san-pham/chuyen-flash-sale',[SanPhamDaiLyController::class,"chuyenFlashSale"])->middleware("DaiLyMiddle");
 
 Route::post('/nhan-vien/dang-nhap', [NhanVienController::class, 'dangNhap']);
 Route::post('/dai-ly/dang-nhap', [DaiLyController::class, 'dangNhap']);
