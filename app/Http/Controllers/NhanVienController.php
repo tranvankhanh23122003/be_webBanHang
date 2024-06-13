@@ -113,4 +113,28 @@ class NhanVienController extends Controller
             ]);
         }
     }
+
+    public function changeStatus(Request $request)
+    {
+        $nhanVien = NhanVien::where('id', $request->id)->first();
+
+        if($nhanVien) {
+            if($nhanVien->tinh_trang == 0) {
+                $nhanVien->tinh_trang = 1;
+            } else {
+                $nhanVien->tinh_trang = 0;
+            }
+            $nhanVien->save();
+
+            return response()->json([
+                'status'    => true,
+                'message'   => "Đã cập nhật trạng thái nhân viên thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status'    => false,
+                'message'   => "Nhân viên không tồn tại!"
+            ]);
+        }
+    }
 }

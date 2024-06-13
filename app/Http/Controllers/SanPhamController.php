@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SanPham;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SanPhamController extends Controller
 {
@@ -134,5 +135,179 @@ class SanPhamController extends Controller
             'status' => true,
             'message' => "Đã xóa sản phẩn". $request->ten_san_pham . " thành công.",
         ]);
+    }
+
+    public function getDataDaiLy(){
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\DaiLy) {
+            $data = SanPham::where('id_dai_ly', $tai_khoan_dang_dang_nhap->id)->get();
+            return response()->json([
+                'data' => $data
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => "Bạn chưa đăng nhập",
+            ]);
+        }
+        
+    }
+
+    public function storeDaiLy(Request $request){
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\DaiLy) {
+            SanPham::create([
+                'ten_san_pham'  =>$request->ten_san_pham,
+                'slug_san_pham'  =>$request->slug_san_pham,
+                'so_luong'   =>$request->so_luong,
+                'hinh_anh'   =>$request->hinh_anh,
+                'mo_ta_ngan'   =>$request->mo_ta_ngan,
+                'mo_ta_chi_tiet'   =>$request->mo_ta_chi_tiet,
+                'tinh_trang'  =>$request->tinh_trang,
+                'gia_ban'  =>$request->gia_ban,
+                'gia_khuyen_mai'  =>$request->gia_khuyen_mai,
+                'id_dai_ly'  =>$tai_khoan_dang_dang_nhap->id,
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => "Đã thêm mới sản phẩm". $request->ten_san_pham . " thành công.",
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => "Bạn chưa đăng nhập",
+            ]);
+        }
+        
+    }
+    public function checkSlugDaiLy(Request $request){
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\DaiLy) {
+            $slug = $request->slug_san_pham;
+            $check = SanPham::where('slug_san_pham', $slug)->where('id_dai_ly', $tai_khoan_dang_dang_nhap->id)->first();
+            if($check){
+                return response()->json([
+                    'status' => false,
+                    'message' => "Slug này đã tồn tại.",
+                ]);
+            } else {
+                return response()->json([
+                    'status' => true,
+                    'message' => "Có thể thêm danh mục này.",
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => "Bạn chưa đăng nhập",
+            ]);
+        }
+        
+    }
+
+    public function xoaSPDaiLy(Request $request){
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\DaiLy) {
+            SanPham::where('id', $request->id)->where('id_dai_ly', $tai_khoan_dang_dang_nhap->id)->delete();
+            return response()->json([
+                'status' => true,
+                'message' => "Đã xóa sản phẩn". $request->ten_san_pham . " thành công.",
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => "Bạn chưa đăng nhập",
+            ]);
+        }
+        
+    }
+
+    public function chuyenTrangThaiBanDaiLy(Request $request)
+    {
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\DaiLy) {
+            $tinh_trang = $request->tinh_trang == 1 ? 0 : 1;
+            SanPham::where('id', $request->id)->where('id_dai_ly', $tai_khoan_dang_dang_nhap->id)->update([
+                'tinh_trang'    =>  $tinh_trang
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => "Đã đổi tình trạng sản phẩm". $request->ten_san_pham . " thành công.",
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => "Bạn chưa đăng nhập",
+            ]);
+        }
+        
+    }
+
+    public function chuyenNoiBatDaiLy(Request $request)
+    {
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\DaiLy) {
+            $is_noi_bat = $request->is_noi_bat == 1 ? 0 : 1;
+            SanPham::where('id', $request->id)->where('id_dai_ly', $tai_khoan_dang_dang_nhap->id)->update([
+                'is_noi_bat'    =>  $is_noi_bat
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => "Đã đổi tình trạng sản phẩm". $request->ten_san_pham . " thành công.",
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => "Bạn chưa đăng nhập",
+            ]);
+        }
+        
+    }
+
+    public function updateDaiLy(Request $request)
+    {
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\DaiLy) {
+            SanPham::where('id', $request->id)->where('id_dai_ly', $tai_khoan_dang_dang_nhap->id)->update([
+                'ten_san_pham'  =>$request->ten_san_pham,
+                'slug_san_pham'  =>$request->slug_san_pham,
+                'so_luong'   =>$request->so_luong,
+                'hinh_anh'   =>$request->hinh_anh,
+                'mo_ta_ngan'   =>$request->mo_ta_ngan,
+                'mo_ta_chi_tiet'   =>$request->mo_ta_chi_tiet,
+                'tinh_trang'  =>$request->tinh_trang,
+                'gia_ban'  =>$request->gia_ban,
+                'gia_khuyen_mai'  =>$request->gia_khuyen_mai,
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => "Đã sửa đổi thông tin ". $request->ten_san_pham . " thành công.",
+            ]);
+        }
+        
+    }
+
+    public function chuyenFlashSaleDaiLy(Request $request)
+    {
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\DaiLy) {
+            $is_flash_sale = $request->is_flash_sale == 1 ? 0 : 1;
+            SanPham::where('id', $request->id)->where('id_dai_ly', $tai_khoan_dang_dang_nhap->id)->update([
+                'is_flash_sale'    =>  $is_flash_sale
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => "Đã đổi tình trạng sản phẩm". $request->ten_san_pham . " thành công.",
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => "Bạn chưa đăng nhập",
+            ]);
+        }
+        
     }
 }

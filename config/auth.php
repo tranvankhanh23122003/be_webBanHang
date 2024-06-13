@@ -17,6 +17,10 @@ return [
             'driver'    => 'session',
             'provider'  => 'dailyprovider',
         ],
+        'khachhang' => [
+            'driver'    => 'session',
+            'provider'  => 'khachhangprovider',
+        ],
         'nhanvien' => [
             'driver'    => 'session',
             'provider'  => 'nhanvienprovider',
@@ -31,6 +35,10 @@ return [
         'dailyprovider' => [
             'driver'    => 'eloquent',
             'model'     => \App\Models\DaiLy::class,
+        ],
+        'khachhangprovider' => [
+            'driver'    => 'eloquent',
+            'model'     => \App\Models\KhachHang::class,
         ],
         'nhanvienprovider' => [
             'driver'    => 'eloquent',

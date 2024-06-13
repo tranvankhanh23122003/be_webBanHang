@@ -99,4 +99,61 @@ class DaiLyController extends Controller
             ]);
         }
     }
+
+    public function kiemTraDaiLy()
+    {
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\DaiLy) {
+            return response()->json([
+                'status'    =>  true
+            ]);
+        } else {
+            return response()->json([
+                'status'    =>  false,
+                'message'   =>  'Bạn cần đăng nhập hệ thống trước'
+            ]);
+        }
+    }
+    public function changeStatus(Request $request)
+    {
+        $daiLy = DaiLy::where('id', $request->id)->first();
+
+        if($daiLy) {
+            if($daiLy->is_active == 0) {
+                $daiLy->is_active = 1;
+            } else {
+                $daiLy->is_active = 0;
+            }
+            $daiLy->save();
+
+            return response()->json([
+                'status'    => true,
+                'message'   => "Đã cập nhật trạng thái đại lý thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status'    => false,
+                'message'   => "Đại lý không tồn tại!"
+            ]);
+        }
+    }
+
+    public function dangKy(Request $request)
+    {
+        DaiLy::create([
+            'ho_va_ten'             =>  $request->ho_va_ten,
+            'email'                 =>  $request->email,
+            'so_dien_thoai'         =>  $request->so_dien_thoai,
+            'ngay_sinh'             =>  $request->ngay_sinh,
+            'password'              =>  bcrypt($request->password),
+            'ten_doanh_nghiep'      =>  $request->ten_doanh_nghiep,
+            'ma_so_thue'            =>  $request->ma_so_thue,
+            'dia_chi_kinh_doanh'    =>  $request->dia_chi_kinh_doanh,
+        ]);
+
+        return response()->json([
+            'message'  =>   'Đã đăng ký tài khoản thành công!',
+            'status'   =>   true
+        ]);
+    }
 }

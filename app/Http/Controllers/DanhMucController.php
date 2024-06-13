@@ -73,4 +73,27 @@ class DanhMucController extends Controller
             'message' => "Đã update danh muc". $request->ten_danh_muc . " thành công.",
         ]);
     }
+    public function changeStatus(Request $request)
+    {
+        $danhMuc = DanhMuc::where('id', $request->id)->first();
+
+        if($danhMuc) {
+            if($danhMuc->tinh_trang == 0) {
+                $danhMuc->tinh_trang = 1;
+            } else {
+                $danhMuc->tinh_trang = 0;
+            }
+            $danhMuc->save();
+
+            return response()->json([
+                'status'    => true,
+                'message'   => "Đã cập nhật trạng thái danh mục thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status'    => false,
+                'message'   => "Danh mục không tồn tại!"
+            ]);
+        }
+    }
 }
