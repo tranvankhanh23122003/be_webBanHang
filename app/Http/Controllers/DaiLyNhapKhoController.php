@@ -43,4 +43,19 @@ class DaiLyNhapKhoController extends Controller
                         $check == true ? "Đã xóa nhập kho sản phẩm" . $request->ten_san_pham . " thành công." : "Xóa nhập kho sản phẩm không thành công",
         ]);
     }
+
+    public function update(Request $request)
+    {
+        $user_login = Auth::guard('sanctum')->user();
+        $check = NhapKho::where('id', $request->id)->where('id_dai_ly', $user_login->id)->update([
+            'so_luong'     => $request->so_luong,
+            'don_gia'   => $request->don_gia,
+        ]);
+
+        return response()->json([
+            'status'    => $check,
+            'message'   => 
+                        $check == true ? "Đã cập nhật nhập kho sản phẩm" . $request->ten_san_pham . " thành công." : "Cập nhật nhập kho sản phẩm không thành công",
+        ]);
+    }
 }

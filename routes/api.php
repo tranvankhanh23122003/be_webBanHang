@@ -59,6 +59,7 @@ Route::post('/dai-ly/san-pham/chuyen-trang-thai-ban',[SanPhamDaiLyController::cl
 
 Route::post('/dai-ly/nhap-kho/create',[DaiLyNhapKhoController::class,'store'])->middleware("DaiLyMiddle");
 Route::post('/dai-ly/nhap-kho/delete',[DaiLyNhapKhoController::class,'destroy'])->middleware("DaiLyMiddle");
+Route::post('/dai-ly/nhap-kho/update',[DaiLyNhapKhoController::class,'update'])->middleware("DaiLyMiddle");
 Route::get('/dai-ly/nhap-kho/data-nhap',[DaiLyNhapKhoController::class,'getData'])->middleware("DaiLyMiddle");
 
 Route::post('/nhan-vien/dang-nhap', [NhanVienController::class, 'dangNhap']);
