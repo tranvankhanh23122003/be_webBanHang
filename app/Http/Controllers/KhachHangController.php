@@ -125,12 +125,12 @@ class KhachHangController extends Controller
 
         if ($check) {
             // Lấy thông tin tài khoản đã đăng nhập thành công
-            $daiLy  =   Auth::guard('khachhang')->user(); // Lấy được thông tin đại lý đã đăng nhập
+            $khach_hang  =   Auth::guard('khachhang')->user(); // Lấy được thông tin đại lý đã đăng nhập
 
             return response()->json([
                 'status'    => true,
                 'message'   => "Đã đăng nhập thành công!",
-                'token'     => $daiLy->createToken('token_khach_hang')->plainTextToken,
+                'token'     => $khach_hang->createToken('token_khach_hang')->plainTextToken,
             ]);
         } else {
             return response()->json([
@@ -140,7 +140,7 @@ class KhachHangController extends Controller
         }
     }
 
-    public function kiemTraDaiLy()
+    public function kiemTraKhachHang()
     {
         $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
         if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\KhachHang) {
@@ -151,6 +151,36 @@ class KhachHangController extends Controller
             return response()->json([
                 'status'    =>  false,
                 'message'   =>  'Bạn cần đăng nhập hệ thống trước'
+            ]);
+        }
+    }
+
+    public function getDataProfile() 
+    {
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        return response()->json([
+            'data'    =>  $tai_khoan_dang_dang_nhap
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        $check = KhachHang::where('id', $tai_khoan_dang_dang_nhap->id)->update([
+            'email'         => $request->email,
+            'so_dien_thoai' => $request->so_dien_thoai,
+            'ho_va_ten'     => $request->ho_va_ten,
+        ]);
+
+        if($check) {
+            return response()->json([
+                'status'    =>  true,
+                'message'   =>  'Cập nhật profile thành công'
+            ]);
+        } else {
+            return response()->json([
+                'status'    =>  false,
+                'message'   =>  'Cập nhật thất bại'
             ]);
         }
     }

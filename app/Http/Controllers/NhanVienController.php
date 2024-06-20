@@ -137,4 +137,35 @@ class NhanVienController extends Controller
             ]);
         }
     }
+
+    public function getDataProfile() 
+    {
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        return response()->json([
+            'data'    =>  $tai_khoan_dang_dang_nhap
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        $check = NhanVien::where('id', $tai_khoan_dang_dang_nhap->id)->update([
+            'email'         => $request->email,
+            'ho_va_ten'     => $request->ho_va_ten,
+            'so_dien_thoai' => $request->so_dien_thoai,
+            'dia_chi'       => $request->dia_chi,
+        ]);
+
+        if($check) {
+            return response()->json([
+                'status'    =>  true,
+                'message'   =>  'Cập nhật profile thành công'
+            ]);
+        } else {
+            return response()->json([
+                'status'    =>  false,
+                'message'   =>  'Cập nhật thất bại'
+            ]);
+        }
+    }
 }

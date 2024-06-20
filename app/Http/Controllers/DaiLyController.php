@@ -156,4 +156,38 @@ class DaiLyController extends Controller
             'status'   =>   true
         ]);
     }
+
+    public function getDataProfile() 
+    {
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        return response()->json([
+            'data'    =>  $tai_khoan_dang_dang_nhap
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
+        $check = DaiLy::where('id', $tai_khoan_dang_dang_nhap->id)->update([
+            'ho_va_ten'             =>  $request->ho_va_ten,
+            'email'                 =>  $request->email,
+            'so_dien_thoai'         =>  $request->so_dien_thoai,
+            'ngay_sinh'             =>  $request->ngay_sinh,
+            'ten_doanh_nghiep'      =>  $request->ten_doanh_nghiep,
+            'ma_so_thue'            =>  $request->ma_so_thue,
+            'dia_chi_kinh_doanh'    =>  $request->dia_chi_kinh_doanh,
+        ]);
+
+        if($check) {
+            return response()->json([
+                'status'    =>  true,
+                'message'   =>  'Cập nhật profile thành công'
+            ]);
+        } else {
+            return response()->json([
+                'status'    =>  false,
+                'message'   =>  'Cập nhật thất bại'
+            ]);
+        }
+    }
 }
