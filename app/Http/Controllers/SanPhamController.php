@@ -141,4 +141,36 @@ class SanPhamController extends Controller
             'message' => "Đã xóa sản phẩn". $request->ten_san_pham . " thành công.",
         ]);
     }
+
+    public function layThongTinSanPham($id)
+    {
+        $data   = SanPham::where('id', $id)->where('tinh_trang', 1)->first();
+        if($data) {
+            return response()->json([
+                'status'  => true,
+                'data'    => $data
+            ]);
+        } else {
+            return response()->json([
+                'status'     => false,
+                'message'    => "Sản phẩm không tồn tại trong hệ thống"
+            ]);
+        }
+    }
+
+    public function layThongTinSanPhamTuDanhMuc($id_danh_muc)
+    {
+        $data   = SanPham::where('id_danh_muc', $id_danh_muc)->where('tinh_trang', 1)->get();
+        if(count($data) > 0) {
+            return response()->json([
+                'status'  => true,
+                'data'    => $data
+            ]);
+        } else {
+            return response()->json([
+                'status'     => false,
+                'message'    => "Danh mục không có bất kỳ sản phẩm nào"
+            ]);
+        }
+    }
 }

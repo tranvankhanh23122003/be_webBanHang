@@ -84,3 +84,6 @@ Route::post('/khach-hang/dia-chi/delete', [DiaChiController::class, 'destroy'])-
 Route::get('/kiem-tra-admin', [NhanVienController::class, 'kiemTraAdmin']);
 Route::get('/kiem-tra-daily', [DaiLyController::class, 'kiemTraDaiLy']);
 Route::get('/kiem-tra-khachhang', [KhachHangController::class, 'kiemTraKhachHang']);
+
+Route::get('/chi-tiet-san-pham/{id}', [SanPhamController::class, 'layThongTinSanPham']);
+Route::get('/thong-tin-san-pham-tu-danh-muc/{id}', [SanPhamController::class, 'layThongTinSanPhamTuDanhMuc']);
