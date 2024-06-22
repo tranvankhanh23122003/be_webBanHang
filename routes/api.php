@@ -87,3 +87,4 @@ Route::get('/kiem-tra-khachhang', [KhachHangController::class, 'kiemTraKhachHang
 
 Route::get('/chi-tiet-san-pham/{id}', [SanPhamController::class, 'layThongTinSanPham']);
 Route::get('/thong-tin-san-pham-tu-danh-muc/{id}', [SanPhamController::class, 'layThongTinSanPhamTuDanhMuc']);
+Route::get('/dai-ly-san-pham/{id}', [SanPhamController::class, 'layThongTinSanPhamDaiLy']);

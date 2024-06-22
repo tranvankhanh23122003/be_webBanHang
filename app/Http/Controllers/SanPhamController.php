@@ -100,15 +100,16 @@ class SanPhamController extends Controller
     public function store(Request $request)
     {
         SanPham::create([
-            'ten_san_pham'  =>$request->ten_san_pham,
-            'slug_san_pham'  =>$request->slug_san_pham,
-            'so_luong'   =>$request->so_luong,
-            'hinh_anh'   =>$request->hinh_anh,
-            'mo_ta_ngan'   =>$request->mo_ta_ngan,
-            'mo_ta_chi_tiet'   =>$request->mo_ta_chi_tiet,
-            'tinh_trang'  =>$request->tinh_trang,
-            'gia_ban'  =>$request->gia_ban,
-            'gia_khuyen_mai'  =>$request->gia_khuyen_mai,
+            'ten_san_pham'      =>$request->ten_san_pham,
+            'slug_san_pham'     =>$request->slug_san_pham,
+            'so_luong'          =>$request->so_luong,
+            'hinh_anh'          =>$request->hinh_anh,
+            'mo_ta_ngan'        =>$request->mo_ta_ngan,
+            'mo_ta_chi_tiet'    =>$request->mo_ta_chi_tiet,
+            'tinh_trang'        =>$request->tinh_trang,
+            'gia_ban'           =>$request->gia_ban,
+            'gia_khuyen_mai'    =>$request->gia_khuyen_mai,
+            'sao_danh_gia'      =>$request->sao_danh_gia,
         ]);
         return response()->json([
             'status' => true,
@@ -161,6 +162,22 @@ class SanPhamController extends Controller
     public function layThongTinSanPhamTuDanhMuc($id_danh_muc)
     {
         $data   = SanPham::where('id_danh_muc', $id_danh_muc)->where('tinh_trang', 1)->get();
+        if(count($data) > 0) {
+            return response()->json([
+                'status'  => true,
+                'data'    => $data
+            ]);
+        } else {
+            return response()->json([
+                'status'     => false,
+                'message'    => "Danh mục không có bất kỳ sản phẩm nào"
+            ]);
+        }
+    }
+
+    public function layThongTinSanPhamDaiLy($id_dai_ly)
+    {
+        $data   = SanPham::where('id_dai_ly', $id_dai_ly)->where('tinh_trang', 1)->get();
         if(count($data) > 0) {
             return response()->json([
                 'status'  => true,

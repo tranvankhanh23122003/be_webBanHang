@@ -32,6 +32,7 @@ class SanPhamDaiLyController extends Controller
             'gia_ban'           =>  $request->gia_ban,
             'gia_khuyen_mai'    =>  $request->gia_khuyen_mai,
             'id_dai_ly'         =>  $user_login->id,
+            'sao_danh_gia'      =>  $request->sao_danh_gia,
         ]);
         return response()->json([
             'status' => true,

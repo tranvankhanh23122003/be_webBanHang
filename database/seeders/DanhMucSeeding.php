@@ -70,8 +70,8 @@ class DanhMucSeeding extends Seeder
             ],
             [
                 'id'                =>  7,
-                'ten_danh_muc'      =>  'Liên Hệ',
-                'slug_danh_muc'     =>  'lien-he',
+                'ten_danh_muc'      =>  'Chăm Sóc Đời Sống',
+                'slug_danh_muc'     =>  'cham-soc-doi-song',
                 'icon_danh_muc'     =>  '<i class="fa-regular fa-address-book"></i>',
                 'id_danh_muc_cha'   =>  0,
                 'tinh_trang'        =>  1

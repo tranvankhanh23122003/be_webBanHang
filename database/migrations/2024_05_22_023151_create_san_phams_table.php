@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('id_dai_ly')->nullable();
             $table->integer('is_noi_bat')->default(0);
             $table->integer('is_flash_sale')->default(0);
+            $table->integer('sao_danh_gia');
             $table->timestamps();
         });
     }
