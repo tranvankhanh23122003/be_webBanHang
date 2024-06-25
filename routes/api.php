@@ -83,6 +83,9 @@ Route::post('/khach-hang/dia-chi/update', [DiaChiController::class, 'update'])->
 Route::post('/khach-hang/dia-chi/delete', [DiaChiController::class, 'destroy'])->middleware("KhachHangMiddle");
 
 Route::post('/khach-hang/gio-hang/create', [ChiTietDonHangController::class, 'store'])->middleware("KhachHangMiddle");
+Route::get('/khach-hang/gio-hang/data', [ChiTietDonHangController::class, 'getGioHang'])->middleware("KhachHangMiddle");
+Route::post('/khach-hang/gio-hang/delete', [ChiTietDonHangController::class, 'deleteGioHang'])->middleware("KhachHangMiddle");
+Route::post('/khach-hang/gio-hang/update', [ChiTietDonHangController::class, 'updateGioHang'])->middleware("KhachHangMiddle");
 
 
 Route::get('/kiem-tra-admin', [NhanVienController::class, 'kiemTraAdmin']);
