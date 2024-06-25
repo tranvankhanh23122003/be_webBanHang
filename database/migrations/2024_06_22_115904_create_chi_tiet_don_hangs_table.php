@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('id_san_pham');
             $table->integer('id_khach_hang');
             $table->integer('id_dai_ly');
+            $table->integer('id_don_hang')->nullable();
             $table->integer('is_gio_hang')->default(1);
             $table->double('don_gia');
             $table->double('so_luong');

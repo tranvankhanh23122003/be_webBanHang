@@ -15,6 +15,7 @@ class ChiTietDonHang extends Model
         'id_san_pham',
         'id_khach_hang',
         'id_dai_ly',
+        'id_don_hang',
         'is_gio_hang',
         'don_gia',
         'so_luong',
