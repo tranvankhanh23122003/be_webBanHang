@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChiTietDonHangController;
 use App\Http\Controllers\DaiLyController;
 use App\Http\Controllers\DaiLyNhapKhoController;
 use App\Http\Controllers\DanhMucController;
@@ -80,6 +81,9 @@ Route::get('/khach-hang/dia-chi/data', [DiaChiController::class, 'getData'])->mi
 Route::post('/khach-hang/dia-chi/create', [DiaChiController::class, 'store'])->middleware("KhachHangMiddle");
 Route::post('/khach-hang/dia-chi/update', [DiaChiController::class, 'update'])->middleware("KhachHangMiddle");
 Route::post('/khach-hang/dia-chi/delete', [DiaChiController::class, 'destroy'])->middleware("KhachHangMiddle");
+
+Route::post('/khach-hang/gio-hang/create', [ChiTietDonHangController::class, 'store'])->middleware("KhachHangMiddle");
+
 
 Route::get('/kiem-tra-admin', [NhanVienController::class, 'kiemTraAdmin']);
 Route::get('/kiem-tra-daily', [DaiLyController::class, 'kiemTraDaiLy']);
