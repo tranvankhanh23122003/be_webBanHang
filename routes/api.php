@@ -6,6 +6,7 @@ use App\Http\Controllers\DaiLyNhapKhoController;
 use App\Http\Controllers\DanhMucController;
 use App\Http\Controllers\DiaChiController;
 use App\Http\Controllers\KhachHangController;
+use App\Http\Controllers\MaGiamGiaController;
 use App\Http\Controllers\NhanVienController;
 use App\Http\Controllers\SanPhamController;
 use App\Http\Controllers\SanPhamDaiLyController;
@@ -39,6 +40,7 @@ Route::post('/admin/dai-ly/delete',[DaiLyController::class,'destroy'])->middlewa
 Route::post('/admin/dai-ly/check-mail',[DaiLyController::class,'checkMail'])->middleware("NhanVienMiddle");
 Route::post('/admin/dai-ly/update',[DaiLyController::class,'update'])->middleware("NhanVienMiddle");
 Route::post('/admin/dai-ly/doi-trang-thai',[DaiLyController::class,'changeStatus'])->middleware("NhanVienMiddle");
+Route::post('/admin/dai-ly/doi-trang-thai-vip',[DaiLyController::class,'changeVip'])->middleware("NhanVienMiddle");
 
 Route::get('/admin/nhan-vien/data',[NhanVienController::class, 'getData'])->middleware("NhanVienMiddle");
 Route::post('/admin/nhan-vien/create',[NhanVienController::class, 'store'])->middleware("NhanVienMiddle");
@@ -52,6 +54,12 @@ Route::post('/admin/khach-hang/kich-hoat-tai-khoan', [KhachHangController::class
 Route::post('/admin/khach-hang/doi-trang-thai', [KhachHangController::class, 'doiTrangThaiKhachHang'])->middleware("NhanVienMiddle");
 Route::post('/admin/khach-hang/update', [KhachHangController::class, 'updateTaiKhoan'])->middleware("NhanVienMiddle");
 Route::post('/admin/khach-hang/delete', [KhachHangController::class, 'deleteTaiKhoan'])->middleware("NhanVienMiddle");
+
+Route::get('/admin/ma-giam-gia/data',[MaGiamGiaController::class, 'getData'])->middleware("NhanVienMiddle");
+Route::post('/admin/ma-giam-gia/create',[MaGiamGiaController::class, 'store'])->middleware("NhanVienMiddle");
+Route::post('/admin/ma-giam-gia/delete',[MaGiamGiaController::class,'destroy'])->middleware("NhanVienMiddle");
+Route::post('/admin/ma-giam-gia/update',[MaGiamGiaController::class,'update'])->middleware("NhanVienMiddle");
+Route::post('/admin/ma-giam-gia/doi-trang-thai',[MaGiamGiaController::class,'changeStatus'])->middleware("NhanVienMiddle");
 
 Route::get('/admin/profile/data', [NhanVienController::class, 'getDataProfile'])->middleware("NhanVienMiddle");
 Route::post('/admin/profile/update', [NhanVienController::class, 'updateProfile'])->middleware("NhanVienMiddle");

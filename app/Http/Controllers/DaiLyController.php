@@ -114,6 +114,7 @@ class DaiLyController extends Controller
             ]);
         }
     }
+
     public function changeStatus(Request $request)
     {
         $daiLy = DaiLy::where('id', $request->id)->first();
@@ -129,6 +130,30 @@ class DaiLyController extends Controller
             return response()->json([
                 'status'    => true,
                 'message'   => "Đã cập nhật trạng thái đại lý thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status'    => false,
+                'message'   => "Đại lý không tồn tại!"
+            ]);
+        }
+    }
+
+    public function changeVip(Request $request)
+    {
+        $daiLy = DaiLy::where('id', $request->id)->first();
+
+        if($daiLy) {
+            if($daiLy->is_vip == 0) {
+                $daiLy->is_vip = 1;
+            } else {
+                $daiLy->is_vip = 0;
+            }
+            $daiLy->save();
+
+            return response()->json([
+                'status'    => true,
+                'message'   => "Đã cập nhật trạng thái VIP đại lý thành công!"
             ]);
         } else {
             return response()->json([

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('ten_doanh_nghiep');
             $table->string('ma_so_thue');
             $table->string('dia_chi_kinh_doanh');
+            $table->integer('is_vip')->default(0);
             $table->integer('is_active')->default(0);
             $table->integer('is_block')->default(0);
             $table->string('hash_active')->nullable();

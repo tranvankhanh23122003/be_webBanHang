@@ -22,6 +22,7 @@ class DaiLy extends Authenticatable
         'ten_doanh_nghiep',
         'ma_so_thue',
         'dia_chi_kinh_doanh',
+        'is_vip',
         'is_active',
         'is_block',
         'hash_active',
