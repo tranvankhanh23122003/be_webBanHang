@@ -39,4 +39,51 @@ class ChiTietDonHangController extends Controller
             'message'   =>  'Đã thêm vào giỏ hàng thành công'
         ]);
     }
+
+    public function getGioHang()
+    {
+        $khachHang = Auth::guard('sanctum')->user();
+
+        $data      = ChiTietDonHang::where('is_gio_hang', 1)    // Đang là giỏ hàng
+                                   ->where('id_khach_hang', $khachHang->id)     // Vì giỏ hàng là của từng KH
+                                   ->get();
+
+        return response()->json([
+            'data'    =>  $data,
+        ]);
+    }
+
+    public function deleteGioHang(Request $request)
+    {
+        $khachHang = Auth::guard('sanctum')->user();
+
+        ChiTietDonHang::where('id', $request->id)
+                      ->where('id_khach_hang', $khachHang->id)
+                      ->where('is_gio_hang', 1)
+                      ->delete();
+
+        return response()->json([
+            'status'    =>  true,
+            'message'   =>  'Đã xoá sản phẩm trong giỏ hàng thành công'
+        ]);
+    }
+
+    public function updateGioHang(Request $request)
+    {
+        $khachHang = Auth::guard('sanctum')->user();
+
+        ChiTietDonHang::where('id', $request->id)
+                      ->where('id_khach_hang', $khachHang->id)
+                      ->where('is_gio_hang', 1)
+                      ->update([
+                            'ghi_chu'    => $request->ghi_chu,
+                            'so_luong'   => $request->so_luong,
+                            'thanh_tien' => $request->so_luong * $request->don_gia  // code khúc này sai nha
+                      ]);
+
+        return response()->json([
+            'status'    =>  true,
+            'message'   =>  'Đã cập nhật sản phẩm trong giỏ hàng thành công'
+        ]);
+    }
 }

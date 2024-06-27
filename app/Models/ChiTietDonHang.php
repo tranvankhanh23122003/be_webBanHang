@@ -21,5 +21,6 @@ class ChiTietDonHang extends Model
         'so_luong',
         'thanh_tien',
         'ten_san_pham',
+        'ghi_chu'
     ];
 }
