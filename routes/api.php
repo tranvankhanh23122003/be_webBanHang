@@ -56,10 +56,13 @@ Route::post('/admin/khach-hang/update', [KhachHangController::class, 'updateTaiK
 Route::post('/admin/khach-hang/delete', [KhachHangController::class, 'deleteTaiKhoan'])->middleware("NhanVienMiddle");
 
 Route::get('/admin/ma-giam-gia/data',[MaGiamGiaController::class, 'getData'])->middleware("NhanVienMiddle");
+Route::post('/ma-giam-gia/kiem-tra',[MaGiamGiaController::class, 'kiemTraMaGiamGia']);
+Route::get('/ma-giam-gia/data',[MaGiamGiaController::class, 'getDataOpen']);
 Route::post('/admin/ma-giam-gia/create',[MaGiamGiaController::class, 'store'])->middleware("NhanVienMiddle");
-Route::post('/admin/ma-giam-gia/delete',[MaGiamGiaController::class,'destroy'])->middleware("NhanVienMiddle");
 Route::post('/admin/ma-giam-gia/update',[MaGiamGiaController::class,'update'])->middleware("NhanVienMiddle");
-Route::post('/admin/ma-giam-gia/doi-trang-thai',[MaGiamGiaController::class,'changeStatus'])->middleware("NhanVienMiddle");
+Route::post('/admin/ma-giam-gia/doi-trang-thai',[MaGiamGiaController::class,'doiTrangThai'])->middleware("NhanVienMiddle");
+Route::post('/admin/ma-giam-gia/delete',[MaGiamGiaController::class,'destroy'])->middleware("NhanVienMiddle");
+
 
 Route::get('/admin/profile/data', [NhanVienController::class, 'getDataProfile'])->middleware("NhanVienMiddle");
 Route::post('/admin/profile/update', [NhanVienController::class, 'updateProfile'])->middleware("NhanVienMiddle");

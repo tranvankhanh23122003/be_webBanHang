@@ -72,7 +72,7 @@ class KhachHangController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => "Đã đổi trạng thái tài khoản thành công!"
+                'message' => "Đã cập nhật tài khoản thành công!"
             ]);
         } else {
             return response()->json([

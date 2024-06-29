@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('ma_giam_gias', function (Blueprint $table) {
             $table->id();
-            $table->string('ma_code');
+            $table->string('code');
             $table->integer('tinh_trang');
-            $table->dateTime('bat_dau');
-            $table->dateTime('ket_thuc');
-            $table->integer('loai_giam')->comment("0: giam_%, 1: tien_mat");
+            $table->date('ngay_bat_dau');
+            $table->date('ngay_ket_thuc');
+            $table->integer('loai_giam_gia')->comment("1: Giảm theo %, 1: Giảm theo số tiền");
+            $table->integer('so_giam_gia')->comment("Thể hiện số tiền hoặc % mình sẽ giảm giá");
             $table->integer('so_tien_toi_da');
+            $table->integer('don_hang_toi_thieu');
             $table->timestamps();
         });
     }

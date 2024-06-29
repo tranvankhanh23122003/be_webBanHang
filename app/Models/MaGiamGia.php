@@ -12,11 +12,13 @@ class MaGiamGia extends Model
     protected $table = "ma_giam_gias";
     
     protected $fillable = [
-        'ma_code',
+        'code',
         'tinh_trang',
-        'bat_dau',
-        'ket_thuc',
-        'loai_giam',
+        'ngay_bat_dau',
+        'ngay_ket_thuc',
+        'loai_giam_gia',
+        'so_giam_gia',
         'so_tien_toi_da',
+        'don_hang_toi_thieu',
     ];
 }
