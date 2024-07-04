@@ -17,9 +17,24 @@ class MaGiamGiaController extends Controller
         ]);
     }
 
-    public function kiemTraMaGiamGia()
+    public function kiemTraMaGiamGia(Request $request)
     {
-        
+        $maGiamGia = MaGiamGia::where('code', $request->code)
+                         ->whereDate('ngay_bat_dau', "<=", Carbon::today())
+                         ->whereDate('ngay_ket_thuc', ">=", Carbon::today())
+                         ->where('tinh_trang', 1)
+                         ->first();
+        if($maGiamGia) {
+            return response()->json([
+                'status' => true,
+                'coupon' => $maGiamGia,
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Mã giảm giá không tồn tại trong hệ thống.",
+            ]);
+        }
     }
 
     public function getDataOpen()
@@ -54,7 +69,16 @@ class MaGiamGiaController extends Controller
     
     public function update(Request $request)
     {
-        MaGiamGia::where('id', $request->id)->update($request->all());
+        MaGiamGia::where('id', $request->id)->update([
+            'code'                  => $request->code,
+            'tinh_trang'            => $request->tinh_trang,
+            'ngay_bat_dau'          => $request->ngay_bat_dau,
+            'ngay_ket_thuc'         => $request->ngay_ket_thuc,
+            'loai_giam_gia'         => $request->loai_giam_gia,
+            'so_giam_gia'           => $request->so_giam_gia,
+            'so_tien_toi_da'        => $request->so_tien_toi_da,
+            'don_hang_toi_thieu'    => $request->don_hang_toi_thieu,
+        ]);
         return response()->json([
             'status' => true,
             'message' => "Đã update mã giảm giá". $request->ma_code . " thành công.",
