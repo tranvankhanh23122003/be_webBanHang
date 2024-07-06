@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
             DanhMucSeeding::class,
             SanPhamSeeding::class,
             NhanVienSeeding::class,
-            KhachHangSeeding::class
+            KhachHangSeeding::class,
+            DiaChiSeeding::class,
+            MaGiamGiaSeeding::class,
         ]);
     }
 }
