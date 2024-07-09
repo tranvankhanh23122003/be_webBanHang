@@ -45,7 +45,7 @@ class MaGiamGiaController extends Controller
                          ->get();
 
         return response()->json([
-            'data' => $data
+            'data'      => $data
         ]);
     }
 
@@ -66,7 +66,7 @@ class MaGiamGiaController extends Controller
             'message' => "Đã xóa mã giảm giá". $request->ma_code . " thành công.",
         ]);
     }
-    
+
     public function update(Request $request)
     {
         MaGiamGia::where('id', $request->id)->update([

@@ -5,6 +5,7 @@ use App\Http\Controllers\DaiLyController;
 use App\Http\Controllers\DaiLyNhapKhoController;
 use App\Http\Controllers\DanhMucController;
 use App\Http\Controllers\DiaChiController;
+use App\Http\Controllers\DonHangController;
 use App\Http\Controllers\KhachHangController;
 use App\Http\Controllers\MaGiamGiaController;
 use App\Http\Controllers\NhanVienController;
@@ -97,6 +98,8 @@ Route::post('/khach-hang/gio-hang/create', [ChiTietDonHangController::class, 'st
 Route::get('/khach-hang/gio-hang/data', [ChiTietDonHangController::class, 'getGioHang'])->middleware("KhachHangMiddle");
 Route::post('/khach-hang/gio-hang/delete', [ChiTietDonHangController::class, 'deleteGioHang'])->middleware("KhachHangMiddle");
 Route::post('/khach-hang/gio-hang/update', [ChiTietDonHangController::class, 'updateGioHang'])->middleware("KhachHangMiddle");
+
+Route::post('/khach-hang/don-hang/create', [DonHangController::class, 'store'])->middleware("KhachHangMiddle");
 
 
 Route::get('/kiem-tra-admin', [NhanVienController::class, 'kiemTraAdmin']);
