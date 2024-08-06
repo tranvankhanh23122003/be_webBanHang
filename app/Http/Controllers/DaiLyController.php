@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DaiLyDangKyRequest;
+use App\Http\Requests\DaiLyDangNhapRequest;
 use App\Models\DaiLy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -76,7 +78,7 @@ class DaiLyController extends Controller
         ]);
     }
 
-    public function dangNhap(Request $request)
+    public function dangNhap(DaiLyDangNhapRequest $request)
     {
         $check  =   Auth::guard('daily')->attempt([
             'email'     => $request->email,
@@ -163,7 +165,7 @@ class DaiLyController extends Controller
         }
     }
 
-    public function dangKy(Request $request)
+    public function dangKy(DaiLyDangKyRequest $request)
     {
         DaiLy::create([
             'ho_va_ten'             =>  $request->ho_va_ten,

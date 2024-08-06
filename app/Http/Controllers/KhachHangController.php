@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\KhachHangDangKyRequest;
+use App\Http\Requests\KhachHangDangNhapRequest;
 use App\Models\KhachHang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -101,7 +103,7 @@ class KhachHangController extends Controller
         }
     }
 
-    public function dangKy(Request $request)
+    public function dangKy(KhachHangDangKyRequest $request)
     {
         KhachHang::create([
             'email'             => $request->email,
@@ -116,7 +118,7 @@ class KhachHangController extends Controller
         ]);
     }
 
-    public function dangNhap(Request $request)
+    public function dangNhap(KhachHangDangNhapRequest $request)
     {
         $check  =   Auth::guard('khachhang')->attempt([
             'email'     => $request->email,
@@ -131,6 +133,7 @@ class KhachHangController extends Controller
                 'status'    => true,
                 'message'   => "Đã đăng nhập thành công!",
                 'token'     => $khach_hang->createToken('token_khach_hang')->plainTextToken,
+                'ten_kh'    => $khach_hang->ho_va_ten
             ]);
         } else {
             return response()->json([

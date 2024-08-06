@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminDangNhapRequest;
 use App\Models\NhanVien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -73,7 +74,7 @@ class NhanVienController extends Controller
         ]);
     }
 
-    public function dangNhap(Request $request)
+    public function dangNhap(AdminDangNhapRequest $request)
     {
         $check  =   Auth::guard('nhanvien')->attempt([
             'email'     => $request->email,
