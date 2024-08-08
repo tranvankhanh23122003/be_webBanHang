@@ -91,6 +91,7 @@ Route::post('/khach-hang/dang-nhap', [KhachHangController::class, 'dangNhap']);
 Route::post('/khach-hang/dang-ky', [KhachHangController::class, 'dangKy']);
 Route::post('/khach-hang/kich-hoat', [KhachHangController::class, 'kichHoat']);
 Route::post('/khach-hang/quen-mat-khau', [KhachHangController::class, 'quenMK']);
+Route::post('/khach-hang/doi-mat-khau', [KhachHangController::class, 'doiMK']);
 Route::get('/khach-hang/profile/data', [KhachHangController::class, 'getDataProfile'])->middleware("KhachHangMiddle");
 Route::post('/khach-hang/profile/update', [KhachHangController::class, 'updateProfile'])->middleware("KhachHangMiddle");
 Route::get('/khach-hang/dia-chi/data', [DiaChiController::class, 'getData'])->middleware("KhachHangMiddle");
