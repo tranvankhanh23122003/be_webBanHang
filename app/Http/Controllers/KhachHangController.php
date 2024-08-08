@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\KhachHangDangKyRequest;
 use App\Http\Requests\KhachHangDangNhapRequest;
+use App\Mail\MasterMail;
 use App\Models\KhachHang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class KhachHangController extends Controller
 {
@@ -105,12 +107,17 @@ class KhachHangController extends Controller
 
     public function dangKy(KhachHangDangKyRequest $request)
     {
-        KhachHang::create([
+        $khachHang = KhachHang::create([
             'email'             => $request->email,
             'so_dien_thoai'     => $request->so_dien_thoai,
             'ho_va_ten'         => $request->ho_va_ten,
             'password'          => bcrypt($request->password),
         ]);
+
+        $data['ho_va_ten']  = $request->ho_va_ten;
+        $data['link']       = 'http://localhost:5173/khach-hang/kich-hoat/' . $khachHang->id;
+
+        Mail::to($request->email)->send(new MasterMail('Kích Hoạt Tài Khoản', 'dang_ky', $data));
 
         return response()->json([
             'status' => true,
@@ -184,6 +191,47 @@ class KhachHangController extends Controller
             return response()->json([
                 'status'    =>  false,
                 'message'   =>  'Cập nhật thất bại'
+            ]);
+        }
+    }
+
+    public function kichHoat(Request $request)
+    {
+        $khach_hang = KhachHang::where('id', $request->id_khach_hang)->first();
+        if ($khach_hang && $khach_hang->is_active == 0) {
+            $khach_hang->is_active = 1;
+            $khach_hang->save();
+
+            return response()->json([
+                'status'    =>  true,
+                'message'   =>  'Đã kích hoạt tài khoản thành công'
+            ]);
+        } else {
+            return response()->json([
+                'status'    =>  false,
+                'message'   =>  'Liên kết không tồn tại'
+            ]);
+        }
+    }
+    public function quenMK(Request $request)
+    {
+        $khach_hang = KhachHang::where('email', $request->email)->first();
+        if($khach_hang){
+            $mat_khau_moi       = random_int(100000, 1000000);
+            $x['ho_va_ten']     = $khach_hang->ho_va_ten;
+            $x['link']          = 'http://localhost:5173/khach-hang/doi-mat-khau/' . $khach_hang->id;
+            $x['mat_khau_moi']  = $mat_khau_moi;
+            Mail::to($request->email)->send(new MasterMail('Đổi Mật Khẩu Của Bạn', 'quen_mat_khau', $x));
+            $khach_hang->password = bcrypt($mat_khau_moi);
+            $khach_hang->save();
+            return response()->json([
+                'status'    =>  true,
+                'message'   =>  'Vui Lòng kiểm tra lại email'
+            ]);
+        } else {
+            return response()->json([
+                'status'    =>  false,
+                'message'   =>  'Email không có trong hệ thống'
             ]);
         }
     }

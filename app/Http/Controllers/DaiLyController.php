@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DaiLyDangKyRequest;
 use App\Http\Requests\DaiLyDangNhapRequest;
+use App\Mail\MasterMail;
 use App\Models\DaiLy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class DaiLyController extends Controller
 {
@@ -167,7 +169,7 @@ class DaiLyController extends Controller
 
     public function dangKy(DaiLyDangKyRequest $request)
     {
-        DaiLy::create([
+        $daiLy = DaiLy::create([
             'ho_va_ten'             =>  $request->ho_va_ten,
             'email'                 =>  $request->email,
             'so_dien_thoai'         =>  $request->so_dien_thoai,
@@ -177,6 +179,11 @@ class DaiLyController extends Controller
             'ma_so_thue'            =>  $request->ma_so_thue,
             'dia_chi_kinh_doanh'    =>  $request->dia_chi_kinh_doanh,
         ]);
+
+        $data['ho_va_ten']  = $request->ho_va_ten;
+        $data['link']       = 'http://localhost:5173/dai-ly/kich-hoat/' . $daiLy->id;
+
+        Mail::to($request->email)->send(new MasterMail('Kích Hoạt Tài Khoản Đại Lý', 'dai_ly_dang_ky', $data));
 
         return response()->json([
             'message'  =>   'Đã đăng ký tài khoản thành công!',
@@ -214,6 +221,47 @@ class DaiLyController extends Controller
             return response()->json([
                 'status'    =>  false,
                 'message'   =>  'Cập nhật thất bại'
+            ]);
+        }
+    }
+
+    public function kichHoat(Request $request)
+    {
+        $dai_ly = DaiLy::where('id', $request->id_dai_ly)->first();
+        if ($dai_ly && $dai_ly->is_active == 0) {
+            $dai_ly->is_active = 1;
+            $dai_ly->save();
+
+            return response()->json([
+                'status'    =>  true,
+                'message'   =>  'Đã kích hoạt tài khoản đại lý thành công'
+            ]);
+        } else {
+            return response()->json([
+                'status'    =>  false,
+                'message'   =>  'Liên kết không tồn tại'
+            ]);
+        }
+    }
+    public function quenMK(Request $request)
+    {
+        $dai_ly = DaiLy::where('email', $request->email)->first();
+        if($dai_ly){
+            $mat_khau_moi       = random_int(100000, 1000000);
+            $x['ho_va_ten']     = $dai_ly->ho_va_ten;
+            $x['link']          = 'http://localhost:5173/dai-ly/doi-mat-khau/' . $dai_ly->id;
+            $x['mat_khau_moi']  = $mat_khau_moi;
+            Mail::to($request->email)->send(new MasterMail('Đổi Mật Khẩu Của Đại Lý', 'dai_ly_quen_mat_khau', $x));
+            $dai_ly->password = bcrypt($mat_khau_moi);
+            $dai_ly->save();
+            return response()->json([
+                'status'    =>  true,
+                'message'   =>  'Vui Lòng kiểm tra lại email'
+            ]);
+        } else {
+            return response()->json([
+                'status'    =>  false,
+                'message'   =>  'Email không có trong hệ thống'
             ]);
         }
     }

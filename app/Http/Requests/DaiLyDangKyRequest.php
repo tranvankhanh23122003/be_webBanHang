@@ -23,7 +23,7 @@ class DaiLyDangKyRequest extends FormRequest
     {
         return [
             'ho_va_ten' => 'required|min:3|max:255',
-            'email' => 'required|email|max:255|unique:nha_tuyen_dungs,email',
+            'email' => 'required|email|max:255|unique:dai_lys,email',
             'so_dien_thoai' => 'required|digits:10',
             'ngay_sinh' => 'required|date',
             'password' => 'required|min:6',

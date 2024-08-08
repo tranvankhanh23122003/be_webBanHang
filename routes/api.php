@@ -82,11 +82,15 @@ Route::get('/dai-ly/nhap-kho/data-nhap',[DaiLyNhapKhoController::class,'getData'
 Route::post('/nhan-vien/dang-nhap', [NhanVienController::class, 'dangNhap']);
 Route::post('/dai-ly/dang-nhap', [DaiLyController::class, 'dangNhap']);
 Route::post('/dai-ly/dang-ky', [DaiLyController::class, 'dangKy']);
+Route::post('/dai-ly/kich-hoat', [DaiLyController::class, 'kichHoat']);
+Route::post('/dai-ly/quen-mat-khau', [DaiLyController::class, 'quenMK']);
 Route::get('/dai-ly/profile/data', [DaiLyController::class, 'getDataProfile'])->middleware("DaiLyMiddle");
 Route::post('/dai-ly/profile/update', [DaiLyController::class, 'updateProfile'])->middleware("DaiLyMiddle");
 
 Route::post('/khach-hang/dang-nhap', [KhachHangController::class, 'dangNhap']);
 Route::post('/khach-hang/dang-ky', [KhachHangController::class, 'dangKy']);
+Route::post('/khach-hang/kich-hoat', [KhachHangController::class, 'kichHoat']);
+Route::post('/khach-hang/quen-mat-khau', [KhachHangController::class, 'quenMK']);
 Route::get('/khach-hang/profile/data', [KhachHangController::class, 'getDataProfile'])->middleware("KhachHangMiddle");
 Route::post('/khach-hang/profile/update', [KhachHangController::class, 'updateProfile'])->middleware("KhachHangMiddle");
 Route::get('/khach-hang/dia-chi/data', [DiaChiController::class, 'getData'])->middleware("KhachHangMiddle");
