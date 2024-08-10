@@ -84,6 +84,7 @@ Route::post('/dai-ly/dang-nhap', [DaiLyController::class, 'dangNhap']);
 Route::post('/dai-ly/dang-ky', [DaiLyController::class, 'dangKy']);
 Route::post('/dai-ly/kich-hoat', [DaiLyController::class, 'kichHoat']);
 Route::post('/dai-ly/quen-mat-khau', [DaiLyController::class, 'quenMK']);
+Route::post('/dai-ly/doi-mat-khau', [DaiLyController::class, 'doiMK']);
 Route::get('/dai-ly/profile/data', [DaiLyController::class, 'getDataProfile'])->middleware("DaiLyMiddle");
 Route::post('/dai-ly/profile/update', [DaiLyController::class, 'updateProfile'])->middleware("DaiLyMiddle");
 
