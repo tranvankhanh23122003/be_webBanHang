@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\KhachHangDangKyRequest;
 use App\Http\Requests\KhachHangDangNhapRequest;
+use App\Http\Requests\KhachHangDoiMatKhauRequest;
 use App\Mail\MasterMail;
 use App\Models\KhachHang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class KhachHangController extends Controller
 {
@@ -107,15 +109,18 @@ class KhachHangController extends Controller
 
     public function dangKy(KhachHangDangKyRequest $request)
     {
+        $hash_active    = Str::uuid();
+
         $khachHang = KhachHang::create([
             'email'             => $request->email,
             'so_dien_thoai'     => $request->so_dien_thoai,
             'ho_va_ten'         => $request->ho_va_ten,
             'password'          => bcrypt($request->password),
+            'hash_active'       => $hash_active
         ]);
 
         $data['ho_va_ten']  = $request->ho_va_ten;
-        $data['link']       = 'http://localhost:5173/khach-hang/kich-hoat/' . $khachHang->id;
+        $data['link']       = 'http://localhost:5173/khach-hang/kich-hoat/' . $hash_active;
 
         Mail::to($request->email)->send(new MasterMail('Kích Hoạt Tài Khoản', 'dang_ky', $data));
 
@@ -165,7 +170,7 @@ class KhachHangController extends Controller
         }
     }
 
-    public function getDataProfile() 
+    public function getDataProfile()
     {
         $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
         return response()->json([
@@ -197,7 +202,7 @@ class KhachHangController extends Controller
 
     public function kichHoat(Request $request)
     {
-        $khach_hang = KhachHang::where('id', $request->id_khach_hang)->first();
+        $khach_hang = KhachHang::where('hash_active', $request->id_khach_hang)->first();
         if ($khach_hang && $khach_hang->is_active == 0) {
             $khach_hang->is_active = 1;
             $khach_hang->save();
@@ -217,12 +222,11 @@ class KhachHangController extends Controller
     {
         $khach_hang = KhachHang::where('email', $request->email)->first();
         if($khach_hang){
-            $mat_khau_moi       = random_int(100000, 1000000);
+            $hash_reset         = Str::uuid();
             $x['ho_va_ten']     = $khach_hang->ho_va_ten;
-            $x['link']          = 'http://localhost:5173/khach-hang/doi-mat-khau/' . $khach_hang->id;
-            $x['mat_khau_moi']  = $mat_khau_moi;
+            $x['link']          = 'http://localhost:5173/khach-hang/doi-mat-khau/' . $hash_reset;
             Mail::to($request->email)->send(new MasterMail('Đổi Mật Khẩu Của Bạn', 'quen_mat_khau', $x));
-            $khach_hang->password = bcrypt($mat_khau_moi);
+            $khach_hang->hash_reset = $hash_reset;
             $khach_hang->save();
             return response()->json([
                 'status'    =>  true,
@@ -234,5 +238,18 @@ class KhachHangController extends Controller
                 'message'   =>  'Email không có trong hệ thống'
             ]);
         }
+    }
+
+    public function doiMK(KhachHangDoiMatKhauRequest $request)
+    {
+        $khachHang           = KhachHang::where('hash_reset', $request->id)->first();
+        $khachHang->password = bcrypt($request->password);
+        $khachHang->hash_reset = NULL;
+        $khachHang->save();
+
+        return response()->json([
+            'status'    =>  true,
+            'message'   =>  'Đã đổi mật khẩu thành công'
+        ]);
     }
 }

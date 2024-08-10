@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DaiLyDangKyRequest;
 use App\Http\Requests\DaiLyDangNhapRequest;
+use App\Http\Requests\DaiLyDoiMatKhauRequest;
 use App\Mail\MasterMail;
 use App\Models\DaiLy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class DaiLyController extends Controller
 {
@@ -247,12 +249,11 @@ class DaiLyController extends Controller
     {
         $dai_ly = DaiLy::where('email', $request->email)->first();
         if($dai_ly){
-            $mat_khau_moi       = random_int(100000, 1000000);
+            $hash_reset         = Str::uuid();
             $x['ho_va_ten']     = $dai_ly->ho_va_ten;
-            $x['link']          = 'http://localhost:5173/dai-ly/doi-mat-khau/' . $dai_ly->id;
-            $x['mat_khau_moi']  = $mat_khau_moi;
+            $x['link']          = 'http://localhost:5173/dai-ly/doi-mat-khau/' . $hash_reset;
             Mail::to($request->email)->send(new MasterMail('Đổi Mật Khẩu Của Đại Lý', 'dai_ly_quen_mat_khau', $x));
-            $dai_ly->password = bcrypt($mat_khau_moi);
+            $dai_ly->hash_reset = $hash_reset;
             $dai_ly->save();
             return response()->json([
                 'status'    =>  true,
@@ -264,5 +265,18 @@ class DaiLyController extends Controller
                 'message'   =>  'Email không có trong hệ thống'
             ]);
         }
+    }
+
+    public function doiMK(DaiLyDoiMatKhauRequest $request)
+    {
+        $daiLy           = DaiLy::where('hash_reset', $request->id)->first();
+        $daiLy->password = bcrypt($request->password);
+        $daiLy->hash_reset = NULL;
+        $daiLy->save();
+
+        return response()->json([
+            'status'    =>  true,
+            'message'   =>  'Đã đổi mật khẩu thành công'
+        ]);
     }
 }
