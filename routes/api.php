@@ -107,7 +107,6 @@ Route::post('/khach-hang/gio-hang/update', [ChiTietDonHangController::class, 'up
 
 Route::post('/khach-hang/don-hang/create', [DonHangController::class, 'store'])->middleware("KhachHangMiddle");
 
-
 Route::get('/kiem-tra-admin', [NhanVienController::class, 'kiemTraAdmin']);
 Route::get('/kiem-tra-daily', [DaiLyController::class, 'kiemTraDaiLy']);
 Route::get('/kiem-tra-khachhang', [KhachHangController::class, 'kiemTraKhachHang']);
