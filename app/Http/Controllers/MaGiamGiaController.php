@@ -17,26 +17,6 @@ class MaGiamGiaController extends Controller
         ]);
     }
 
-    public function kiemTraMaGiamGia(Request $request)
-    {
-        $maGiamGia = MaGiamGia::where('code', $request->code)
-                         ->whereDate('ngay_bat_dau', "<=", Carbon::today())
-                         ->whereDate('ngay_ket_thuc', ">=", Carbon::today())
-                         ->where('tinh_trang', 1)
-                         ->first();
-        if($maGiamGia) {
-            return response()->json([
-                'status' => true,
-                'coupon' => $maGiamGia,
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => "Mã giảm giá không tồn tại trong hệ thống.",
-            ]);
-        }
-    }
-
     public function getDataOpen()
     {
         $data = MaGiamGia::where('tinh_trang', 1)
