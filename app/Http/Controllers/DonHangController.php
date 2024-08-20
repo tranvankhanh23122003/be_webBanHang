@@ -35,13 +35,6 @@ class DonHangController extends Controller
             'is_thanh_toan'         => 0,
         ]);
 
-        $x['ds_for']                   =  ChiTietDonHang::where('id_khach_hang', $khachHang->id)
-                                                        ->where('is_gio_hang', 1)
-                                                        ->join('san_phams', 'chi_tiet_don_hangs.id_san_pham', 'san_phams.id')
-                                                        ->select('chi_tiet_don_hangs.*', 'san_phams.hinh_anh',)
-                                                        ->get();
-
-
         $tienThanhToan    = 0;
 
         foreach ($request->list_san_pham_can_mua as $key => $value) {
@@ -66,7 +59,12 @@ class DonHangController extends Controller
         $x['ho_ten']                    = $khachHang->ho_va_ten;
         $x['so_tien_thanh_toan']        = $tienThanhToan;
         $x['link_qr']                   = "https://img.vietqr.io/image/MBBank-1910061030119-qr_only.png?amount=" . $tienThanhToan . "&addInfo=DZ" . $DonHang->id;
-
+        $x['ds_for']    =  ChiTietDonHang::where('id_khach_hang', $khachHang->id)
+                                            ->where('id_don_hang', $DonHang->id)
+                                            ->where('is_gio_hang', 0)
+                                            ->join('san_phams', 'chi_tiet_don_hangs.id_san_pham', 'san_phams.id')
+                                            ->select('chi_tiet_don_hangs.*', 'san_phams.hinh_anh',)
+                                            ->get();
         Mail::to($khachHang->email)->send(new MasterMail('Xác Nhận Đơn Hàng', 'xac_nhan_don_hang', $x));
 
         return response()->json([

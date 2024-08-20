@@ -6,6 +6,7 @@ use App\Http\Controllers\DaiLyNhapKhoController;
 use App\Http\Controllers\DanhMucController;
 use App\Http\Controllers\DiaChiController;
 use App\Http\Controllers\DonHangController;
+use App\Http\Controllers\GiaoDichController;
 use App\Http\Controllers\KhachHangController;
 use App\Http\Controllers\MaGiamGiaController;
 use App\Http\Controllers\NhanVienController;
@@ -14,6 +15,8 @@ use App\Http\Controllers\SanPhamDaiLyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/giao-dich', [GiaoDichController::class, 'index']);
+Route::get('/text', [GiaoDichController::class, 'convertToId']);
 
 Route::get('/danh-muc/data-open',[DanhMucController::class, 'getDataOpen']);
 Route::get('/danh-muc',[DanhMucController::class, 'getData'])->middleware("NhanVienMiddle");
