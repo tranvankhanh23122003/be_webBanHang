@@ -16,6 +16,9 @@ class KhachHangController extends Controller
 {
     public function dataKhachHang()
     {
+        
+        $id_chuc_nang = 28;
+        
         $data = KhachHang::get();
 
         return response()->json([
@@ -25,6 +28,9 @@ class KhachHangController extends Controller
 
     public function kichHoatTaiKhoan(Request $request)
     {
+        
+        $id_chuc_nang = 29;
+        
         $khach_hang = KhachHang::where('id', $request->id)->first();
 
         if ($khach_hang) {
@@ -47,6 +53,9 @@ class KhachHangController extends Controller
 
     public function doiTrangThaiKhachHang(Request $request)
     {
+        
+        $id_chuc_nang = 30;
+        
         $khach_hang = KhachHang::where('id', $request->id)->first();
 
         if ($khach_hang) {
@@ -67,6 +76,9 @@ class KhachHangController extends Controller
 
     public function updateTaiKhoan(Request $request)
     {
+        
+        $id_chuc_nang = 31;
+        
         $khach_hang = KhachHang::where('id', $request->id)->first();
 
         if ($khach_hang) {
@@ -90,6 +102,9 @@ class KhachHangController extends Controller
 
     public function deleteTaiKhoan(Request $request)
     {
+        
+        $id_chuc_nang = 32;
+        
         $khach_hang = KhachHang::where('id', $request->id)->first();
 
         if ($khach_hang) {

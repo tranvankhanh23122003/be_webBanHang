@@ -11,6 +11,9 @@ class NhanVienController extends Controller
 {
     public function getData()
     {
+        
+        $id_chuc_nang = 22;
+        
         $data = NhanVien::get(); //Nghia la lay ra
 
         return response()->json([
@@ -19,6 +22,9 @@ class NhanVienController extends Controller
     }
     public function store(Request $request)
     {
+        
+        $id_chuc_nang = 23;
+        
         NhanVien::create([
             'email'         => $request->email,
             'password'      => bcrypt($request->password),
@@ -35,6 +41,9 @@ class NhanVienController extends Controller
     }
     public function destroy(Request $request)
     {
+        
+        $id_chuc_nang = 24;
+        
         //table danh mục tìm id = $request->id và sau đó xóa nó đi
         NhanVien::find($request->id)->delete();
         return response()->json([
@@ -44,6 +53,9 @@ class NhanVienController extends Controller
     }
     public function checkMail(Request $request)
     {
+        
+        $id_chuc_nang = 27;
+        
         $email = $request->email;
         $check = NhanVien::where('email', $email)->first();
         if ($check) {
@@ -60,6 +72,9 @@ class NhanVienController extends Controller
     }
     public function update(Request $request)
     {
+        
+        $id_chuc_nang = 25;
+        
         NhanVien::find($request->id)->update([
             'email'         => $request->email,
             'ho_va_ten'     => $request->ho_va_ten,
@@ -117,6 +132,9 @@ class NhanVienController extends Controller
 
     public function changeStatus(Request $request)
     {
+        
+        $id_chuc_nang = 26;
+        
         $nhanVien = NhanVien::where('id', $request->id)->first();
 
         if($nhanVien) {

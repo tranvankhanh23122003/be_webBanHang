@@ -16,6 +16,9 @@ class DaiLyController extends Controller
 {
     public function getData()
     {
+        
+        $id_chuc_nang = 15;
+        
         $data = DaiLy::get(); //Nghia la lay ra
 
         return response()->json([
@@ -24,6 +27,9 @@ class DaiLyController extends Controller
     }
     public function store(Request $request)
     {
+        
+        $id_chuc_nang = 16;
+        
         DaiLy::create([
             'ho_va_ten' => $request->ho_va_ten,
             'email' => $request->email,
@@ -42,6 +48,9 @@ class DaiLyController extends Controller
     }
     public function destroy(Request $request)
     {
+        
+        $id_chuc_nang = 17;
+        
         //table danh mục tìm id = $request->id và sau đó xóa nó đi
         DaiLy::find($request->id)->delete();
         return response()->json([
@@ -51,6 +60,9 @@ class DaiLyController extends Controller
     }
     public function checkMail(Request $request)
     {
+        
+        $id_chuc_nang = 21;
+        
         $email = $request->email;
         $check = DaiLy::where('email', $email)->first();
         if ($check) {
@@ -67,6 +79,9 @@ class DaiLyController extends Controller
     }
     public function update(Request $request)
     {
+        
+        $id_chuc_nang = 18;
+        
         DaiLy::find($request->id)->update([
             'ho_va_ten' => $request->ho_va_ten,
             'email' => $request->email,
@@ -123,6 +138,9 @@ class DaiLyController extends Controller
 
     public function changeStatus(Request $request)
     {
+        
+        $id_chuc_nang = 19;
+        
         $daiLy = DaiLy::where('id', $request->id)->first();
 
         if($daiLy) {
@@ -147,6 +165,9 @@ class DaiLyController extends Controller
 
     public function changeVip(Request $request)
     {
+        
+        $id_chuc_nang = 20;
+        
         $daiLy = DaiLy::where('id', $request->id)->first();
 
         if($daiLy) {

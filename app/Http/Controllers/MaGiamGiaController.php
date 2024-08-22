@@ -10,6 +10,9 @@ class MaGiamGiaController extends Controller
 {
     public function getData()
     {
+        
+        $id_chuc_nang = 33;
+        
         $data = MaGiamGia::get();
 
         return response()->json([
@@ -31,6 +34,9 @@ class MaGiamGiaController extends Controller
 
     public function store(Request $request)
     {
+        
+        $id_chuc_nang = 34;
+        
         MaGiamGia::create($request->all());
         return response()->json([
             'status' => true,
@@ -39,6 +45,9 @@ class MaGiamGiaController extends Controller
     }
     public function destroy(Request $request)
     {
+        
+        $id_chuc_nang = 35;
+        
         //table danh mục tìm id = $request->id và sau đó xóa nó đi
         MaGiamGia::where('id', $request->id)->delete();
         return response()->json([
@@ -49,6 +58,9 @@ class MaGiamGiaController extends Controller
 
     public function update(Request $request)
     {
+        
+        $id_chuc_nang = 36;
+        
         MaGiamGia::where('id', $request->id)->update([
             'code'                  => $request->code,
             'tinh_trang'            => $request->tinh_trang,
@@ -66,6 +78,9 @@ class MaGiamGiaController extends Controller
     }
     public function doiTrangThai(Request $request)
     {
+        
+        $id_chuc_nang = 37;
+        
         $maGiamGia = MaGiamGia::where('id', $request->id)->first();
 
         if($maGiamGia) {

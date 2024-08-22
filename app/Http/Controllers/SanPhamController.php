@@ -10,6 +10,9 @@ class SanPhamController extends Controller
 {
     public function chuyenTrangThaiBan(Request $request)
     {
+        
+        $id_chuc_nang = 12;
+        
         $tinh_trang = $request->tinh_trang == 1 ? 0 : 1;
         SanPham::find($request->id)->update([
             'tinh_trang'    =>  $tinh_trang
@@ -23,6 +26,9 @@ class SanPhamController extends Controller
 
     public function chuyenNoiBat(Request $request)
     {
+        
+        $id_chuc_nang = 13;
+        
         $is_noi_bat = $request->is_noi_bat == 1 ? 0 : 1;
         SanPham::find($request->id)->update([
             'is_noi_bat'    =>  $is_noi_bat
@@ -35,6 +41,9 @@ class SanPhamController extends Controller
     }
 
     public function update(Request $request){
+        
+        $id_chuc_nang = 11;
+        
         SanPham::find($request->id)->update([
             'ten_san_pham'  =>$request->ten_san_pham,
             'slug_san_pham'  =>$request->slug_san_pham,
@@ -54,6 +63,9 @@ class SanPhamController extends Controller
 
     public function chuyenFlashSale(Request $request)
     {
+        
+        $id_chuc_nang = 14;
+        
         $is_flash_sale = $request->is_flash_sale == 1 ? 0 : 1;
         SanPham::find($request->id)->update([
             'is_flash_sale'    =>  $is_flash_sale
@@ -67,6 +79,9 @@ class SanPhamController extends Controller
 
     public function getData()
     {
+        
+        $id_chuc_nang = 7;
+        
         $data = SanPham::get();
         return response()->json([
             'data' => $data
@@ -99,6 +114,9 @@ class SanPhamController extends Controller
 
     public function store(Request $request)
     {
+        
+        $id_chuc_nang = 8;
+        
         SanPham::create([
             'ten_san_pham'      =>$request->ten_san_pham,
             'slug_san_pham'     =>$request->slug_san_pham,
@@ -119,6 +137,9 @@ class SanPhamController extends Controller
 
     public function checkSlug(Request $request)
     {
+        
+        $id_chuc_nang = 9;
+        
         $slug = $request->slug_san_pham;
         $check = SanPham::where('slug_san_pham', $slug)->first();
         if($check){
@@ -136,6 +157,9 @@ class SanPhamController extends Controller
 
     public function xoaSP(Request $request)
     {
+        
+        $id_chuc_nang = 10;
+        
         SanPham::find($request->id)->delete();
         return response()->json([
             'status' => true,

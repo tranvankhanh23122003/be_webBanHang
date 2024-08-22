@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             KhachHangSeeding::class,
             DiaChiSeeding::class,
             MaGiamGiaSeeding::class,
+            ChucNangSeeding::class,
         ]);
     }
 }
