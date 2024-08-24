@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class SanPhamController extends Controller
 {
+    public function searchNguoiDung(Request $request){
+        $noi_dung_tim = '%'. $request->noi_dung_tim . '%';
+        $data   =  SanPham::where('ten_san_pham', 'like', $noi_dung_tim)
+                            ->orWhere('mo_ta_ngan', 'like', $noi_dung_tim)->where('tinh_trang', 1)
+                            ->get();
+        return response()->json([
+            'data'  => $data
+        ]);
+    }
+    
     public function chuyenTrangThaiBan(Request $request)
     {
         $tinh_trang = $request->tinh_trang == 1 ? 0 : 1;

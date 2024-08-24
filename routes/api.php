@@ -20,6 +20,7 @@ Route::get('/text', [GiaoDichController::class, 'convertToId']);
 
 Route::get('/danh-muc/data-open',[DanhMucController::class, 'getDataOpen']);
 Route::get('/danh-muc',[DanhMucController::class, 'getData'])->middleware("NhanVienMiddle");
+Route::post('/admin/danh-muc/tim-kiem',[SanPhamController::class, 'search'])->middleware("NhanVienMiddle");
 Route::post('/admin/danh-muc',[DanhMucController::class, 'store'])->middleware("NhanVienMiddle");
 Route::post('/admin/danh-muc/delete',[DanhMucController::class,'destroy'])->middleware("NhanVienMiddle");
 Route::post('/admin/danh-muc/checkSlug',[DanhMucController::class,'checkSlug'])->middleware("NhanVienMiddle");
@@ -31,6 +32,7 @@ Route::get('/san-pham/data-noi-bat', [SanPhamController::class,'getDataNoiBat'])
 Route::get('/san-pham/data-new', [SanPhamController::class,'getDataNew']);
 Route::get('/san-pham', [SanPhamController::class,'getData'])->middleware("NhanVienMiddle");
 Route::post('/admin/san-pham',[SanPhamController::class,'store'])->middleware("NhanVienMiddle");
+Route::post('/admin/san-pham/tim-kiem',[SanPhamController::class, 'search'])->middleware("NhanVienMiddle");
 Route::post('/admin/san-pham/delete', [SanPhamController::class,'xoaSP'])->middleware("NhanVienMiddle");
 Route::post('/admin/san-pham-sua',[SanPhamController::class,'update'])->middleware("NhanVienMiddle");
 Route::post('/admin/san-pham/checkSlug',[SanPhamController::class,"checkSlug"])->middleware("NhanVienMiddle");
@@ -39,6 +41,7 @@ Route::post('/admin/san-pham/chuyen-noi-bat',[SanPhamController::class,"chuyenNo
 Route::post('/admin/san-pham/chuyen-flash-sale',[SanPhamController::class,"chuyenFlashSale"])->middleware("NhanVienMiddle");
 
 Route::get('/admin/dai-ly/data',[DaiLyController::class, 'getData'])->middleware("NhanVienMiddle");
+Route::post('/admin/dai-ly/tim-kiem',[DaiLyController::class, 'search'])->middleware("NhanVienMiddle");
 Route::post('/admin/dai-ly/create',[DaiLyController::class, 'store'])->middleware("NhanVienMiddle");
 Route::post('/admin/dai-ly/delete',[DaiLyController::class,'destroy'])->middleware("NhanVienMiddle");
 Route::post('/admin/dai-ly/check-mail',[DaiLyController::class,'checkMail'])->middleware("NhanVienMiddle");
@@ -47,6 +50,7 @@ Route::post('/admin/dai-ly/doi-trang-thai',[DaiLyController::class,'changeStatus
 Route::post('/admin/dai-ly/doi-trang-thai-vip',[DaiLyController::class,'changeVip'])->middleware("NhanVienMiddle");
 
 Route::get('/admin/nhan-vien/data',[NhanVienController::class, 'getData'])->middleware("NhanVienMiddle");
+Route::post('/admin/nhan-vien/tim-kiem',[NhanVienController::class, 'search'])->middleware("NhanVienMiddle");
 Route::post('/admin/nhan-vien/create',[NhanVienController::class, 'store'])->middleware("NhanVienMiddle");
 Route::post('/admin/nhan-vien/delete',[NhanVienController::class,'destroy'])->middleware("NhanVienMiddle");
 Route::post('/admin/nhan-vien/check-mail',[NhanVienController::class,'checkMail'])->middleware("NhanVienMiddle");
@@ -116,3 +120,5 @@ Route::get('/kiem-tra-khachhang', [KhachHangController::class, 'kiemTraKhachHang
 Route::get('/chi-tiet-san-pham/{id}', [SanPhamController::class, 'layThongTinSanPham']);
 Route::get('/thong-tin-san-pham-tu-danh-muc/{id}', [SanPhamController::class, 'layThongTinSanPhamTuDanhMuc']);
 Route::get('/dai-ly-san-pham/{id}', [SanPhamController::class, 'layThongTinSanPhamDaiLy']);
+
+Route::post('/san-pham/tim-kiem',[SanPhamController::class,'searchNguoiDung']);
