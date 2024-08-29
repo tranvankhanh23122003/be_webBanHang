@@ -80,11 +80,6 @@ Route::post('/admin/ma-giam-gia/delete', [MaGiamGiaController::class, 'destroy']
 Route::get('/admin/profile/data', [NhanVienController::class, 'getDataProfile'])->middleware("NhanVienMiddle");
 Route::post('/admin/profile/update', [NhanVienController::class, 'updateProfile'])->middleware("NhanVienMiddle");
 
-Route::get('/admin/phan-quyen/data', [PhanQuyenController::class, 'getData'])->middleware("NhanVienMiddle");
-Route::post('/admin/phan-quyen/create', [PhanQuyenController::class, 'createData'])->middleware("NhanVienMiddle");
-Route::delete('/admin/phan-quyen/delete/{id}', [PhanQuyenController::class, 'deleteData'])->middleware("NhanVienMiddle");
-Route::put('/admin/phan-quyen/update', [PhanQuyenController::class, 'UpateData'])->middleware("NhanVienMiddle");
-
 Route::get('/admin/chuc-nang/data', [ChucNangController::class, 'getData'])->middleware("NhanVienMiddle");
 
 Route::post('/admin/chi-tiet-phan-quyen/cap-quyen', [ChiTietPhanQuyenController::class, 'capQuyen'])->middleware("NhanVienMiddle");
