@@ -15,6 +15,7 @@ use App\Http\Controllers\NhanVienController;
 use App\Http\Controllers\PhanQuyenController;
 use App\Http\Controllers\SanPhamController;
 use App\Http\Controllers\SanPhamDaiLyController;
+use App\Http\Controllers\ThongKeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -65,6 +66,8 @@ Route::post('/admin/khach-hang/kich-hoat-tai-khoan', [KhachHangController::class
 Route::post('/admin/khach-hang/doi-trang-thai', [KhachHangController::class, 'doiTrangThaiKhachHang'])->middleware("NhanVienMiddle");
 Route::post('/admin/khach-hang/update', [KhachHangController::class, 'updateTaiKhoan'])->middleware("NhanVienMiddle");
 Route::post('/admin/khach-hang/delete', [KhachHangController::class, 'deleteTaiKhoan'])->middleware("NhanVienMiddle");
+
+Route::post('/admin/thong-ke-1', [ThongKeController::class, 'thongKe1'])->middleware("NhanVienMiddle");
 
 Route::get('/admin/ma-giam-gia/data', [MaGiamGiaController::class, 'getData'])->middleware("NhanVienMiddle");
 Route::get('/ma-giam-gia/data', [MaGiamGiaController::class, 'getDataOpen']);
