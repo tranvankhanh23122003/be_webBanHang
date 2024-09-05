@@ -20,18 +20,8 @@ class DanhMucController extends Controller
 
     public function getData()
     {
-
         $id_chuc_nang = 1;
-        $user   =  Auth::guard('sanctum')->user();
-        $check  =   ChiTietPhanQuyen::where('id_quyen', $user->id_quyen)
-                                    ->where('id_chuc_nang', $id_chuc_nang)
-                                    ->first();
-        if (!$check) {
-            return response()->json([
-                'status'    =>  false,
-                'message'   =>  'Bạn không đủ quyền truy cập chức năng này!',
-            ]);
-        }
+        
         $data = DanhMuc::get(); //Nghia la lay ra
 
         return response()->json([

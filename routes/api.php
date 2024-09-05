@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ChiTietDonHangController;
-use App\Http\Controllers\ChiTietPhanQuyenController;
 use App\Http\Controllers\ChucNangController;
 use App\Http\Controllers\DaiLyController;
 use App\Http\Controllers\DaiLyNhapKhoController;
@@ -24,7 +23,7 @@ Route::get('/text', [GiaoDichController::class, 'convertToId']);
 
 Route::get('/danh-muc/data-open', [DanhMucController::class, 'getDataOpen']);
 Route::get('/danh-muc', [DanhMucController::class, 'getData'])->middleware("NhanVienMiddle");
-Route::post('/admin/danh-muc/tim-kiem', [SanPhamController::class, 'search'])->middleware("NhanVienMiddle");
+Route::post('/admin/danh-muc/tim-kiem', [DanhMucController::class, 'search'])->middleware("NhanVienMiddle");
 Route::post('/admin/danh-muc', [DanhMucController::class, 'store'])->middleware("NhanVienMiddle");
 Route::post('/admin/danh-muc/delete', [DanhMucController::class, 'destroy'])->middleware("NhanVienMiddle");
 Route::post('/admin/danh-muc/checkSlug', [DanhMucController::class, 'checkSlug'])->middleware("NhanVienMiddle");
@@ -76,9 +75,15 @@ Route::post('/admin/ma-giam-gia/update', [MaGiamGiaController::class, 'update'])
 Route::post('/admin/ma-giam-gia/doi-trang-thai', [MaGiamGiaController::class, 'doiTrangThai'])->middleware("NhanVienMiddle");
 Route::post('/admin/ma-giam-gia/delete', [MaGiamGiaController::class, 'destroy'])->middleware("NhanVienMiddle");
 
-
 Route::get('/admin/profile/data', [NhanVienController::class, 'getDataProfile'])->middleware("NhanVienMiddle");
 Route::post('/admin/profile/update', [NhanVienController::class, 'updateProfile'])->middleware("NhanVienMiddle");
+
+Route::get('/admin/phan-quyen/data', [PhanQuyenController::class, 'getData'])->middleware("NhanVienMiddle");
+Route::post('/admin/phan-quyen/create', [PhanQuyenController::class, 'createData'])->middleware("NhanVienMiddle");
+Route::delete('/admin/phan-quyen/delete/{id}', [PhanQuyenController::class, 'deleteData'])->middleware("NhanVienMiddle");
+Route::put('/admin/phan-quyen/update', [PhanQuyenController::class, 'UpateData'])->middleware("NhanVienMiddle");
+
+Route::get('/admin/chuc-nang/data', [ChucNangController::class, 'getData'])->middleware("NhanVienMiddle");
 
 Route::get('/dai-ly/san-pham/data', [SanPhamDaiLyController::class, 'getData'])->middleware("DaiLyMiddle");
 Route::post('/dai-ly/san-pham/create', [SanPhamDaiLyController::class, 'store'])->middleware("DaiLyMiddle");
@@ -131,6 +136,3 @@ Route::post('/san-pham/tim-kiem', [SanPhamController::class, 'searchNguoiDung'])
 
 Route::post('/san-pham/tim-kiem', [SanPhamController::class, 'searchNguoiDung']);
 
-
-Route::post('/admin/thong-ke-1', [ThongKeController::class, 'thongKe'])->middleware("NhanVienMiddle");
-Route::post('/admin/thong-ke-2', [ThongKeController::class, 'thongKe2'])->middleware("NhanVienMiddle");
