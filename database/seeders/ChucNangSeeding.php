@@ -60,6 +60,10 @@ class ChucNangSeeding extends Seeder
             ['id' => '40', 'ten_chuc_nang' => 'Cập Nhật Phân Quyền'],
             ['id' => '41', 'ten_chuc_nang' => 'Xóa Phân Quyền'],
             ['id' => '42', 'ten_chuc_nang' => 'Lấy Danh Sách Chức Năng'],
+            ['id' => '43', 'ten_chuc_nang' => 'Tạo Mới Chi Tiết Phân Quyền'],
+            ['id' => '44', 'ten_chuc_nang' => 'Lấy Danh Sách Chi Tiết Phân Quyền'],
+            ['id' => '45', 'ten_chuc_nang' => 'Xóa Chi Tiết Phân Quyền'],
+            ['id' => '46', 'ten_chuc_nang' => 'Xóa Chi Tiết Phân Quyền'],
             ['id' => '47', 'ten_chuc_nang' => 'Thông Kê Số Lượng Sản Phẩm Của Danh Mục'],
         ]);
     }

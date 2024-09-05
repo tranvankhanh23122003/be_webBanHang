@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChiTietDonHangController;
+use App\Http\Controllers\ChiTietPhanQuyenController;
 use App\Http\Controllers\ChucNangController;
 use App\Http\Controllers\DaiLyController;
 use App\Http\Controllers\DaiLyNhapKhoController;
@@ -84,6 +85,10 @@ Route::delete('/admin/phan-quyen/delete/{id}', [PhanQuyenController::class, 'del
 Route::put('/admin/phan-quyen/update', [PhanQuyenController::class, 'UpateData'])->middleware("NhanVienMiddle");
 
 Route::get('/admin/chuc-nang/data', [ChucNangController::class, 'getData'])->middleware("NhanVienMiddle");
+
+Route::post('/admin/chi-tiet-phan-quyen/cap-quyen', [ChiTietPhanQuyenController::class, 'capQuyen'])->middleware("NhanVienMiddle");
+Route::post('/admin/chi-tiet-phan-quyen/danh-sach', [ChiTietPhanQuyenController::class, 'getData'])->middleware("NhanVienMiddle");
+Route::post('/admin/chi-tiet-phan-quyen/xoa-quyen', [ChiTietPhanQuyenController::class, 'xoaQuyen'])->middleware("NhanVienMiddle");
 
 Route::get('/dai-ly/san-pham/data', [SanPhamDaiLyController::class, 'getData'])->middleware("DaiLyMiddle");
 Route::post('/dai-ly/san-pham/create', [SanPhamDaiLyController::class, 'store'])->middleware("DaiLyMiddle");
