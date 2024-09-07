@@ -24,7 +24,6 @@ Route::get('/text', [GiaoDichController::class, 'convertToId']);
 
 Route::get('/danh-muc/data-open', [DanhMucController::class, 'getDataOpen']);
 Route::get('/danh-muc', [DanhMucController::class, 'getData'])->middleware("NhanVienMiddle");
-Route::post('/admin/danh-muc/tim-kiem', [DanhMucController::class, 'search'])->middleware("NhanVienMiddle");
 Route::post('/admin/danh-muc', [DanhMucController::class, 'store'])->middleware("NhanVienMiddle");
 Route::post('/admin/danh-muc/delete', [DanhMucController::class, 'destroy'])->middleware("NhanVienMiddle");
 Route::post('/admin/danh-muc/checkSlug', [DanhMucController::class, 'checkSlug'])->middleware("NhanVienMiddle");
@@ -45,7 +44,6 @@ Route::post('/admin/san-pham/chuyen-noi-bat', [SanPhamController::class, "chuyen
 Route::post('/admin/san-pham/chuyen-flash-sale', [SanPhamController::class, "chuyenFlashSale"])->middleware("NhanVienMiddle");
 
 Route::get('/admin/dai-ly/data', [DaiLyController::class, 'getData'])->middleware("NhanVienMiddle");
-Route::post('/admin/dai-ly/tim-kiem', [DaiLyController::class, 'search'])->middleware("NhanVienMiddle");
 Route::post('/admin/dai-ly/create', [DaiLyController::class, 'store'])->middleware("NhanVienMiddle");
 Route::post('/admin/dai-ly/delete', [DaiLyController::class, 'destroy'])->middleware("NhanVienMiddle");
 Route::post('/admin/dai-ly/check-mail', [DaiLyController::class, 'checkMail'])->middleware("NhanVienMiddle");
@@ -54,7 +52,6 @@ Route::post('/admin/dai-ly/doi-trang-thai', [DaiLyController::class, 'changeStat
 Route::post('/admin/dai-ly/doi-trang-thai-vip', [DaiLyController::class, 'changeVip'])->middleware("NhanVienMiddle");
 
 Route::get('/admin/nhan-vien/data', [NhanVienController::class, 'getData'])->middleware("NhanVienMiddle");
-Route::post('/admin/nhan-vien/tim-kiem', [NhanVienController::class, 'search'])->middleware("NhanVienMiddle");
 Route::post('/admin/nhan-vien/create', [NhanVienController::class, 'store'])->middleware("NhanVienMiddle");
 Route::post('/admin/nhan-vien/delete', [NhanVienController::class, 'destroy'])->middleware("NhanVienMiddle");
 Route::post('/admin/nhan-vien/check-mail', [NhanVienController::class, 'checkMail'])->middleware("NhanVienMiddle");
@@ -70,6 +67,7 @@ Route::post('/admin/khach-hang/delete', [KhachHangController::class, 'deleteTaiK
 Route::post('/admin/thong-ke-1', [ThongKeController::class, 'thongKe1'])->middleware("NhanVienMiddle");
 
 Route::get('/admin/ma-giam-gia/data', [MaGiamGiaController::class, 'getData'])->middleware("NhanVienMiddle");
+Route::post('/ma-giam-gia/kiem-tra',[MaGiamGiaController::class, 'kiemTraMaGiamGia']);
 Route::get('/ma-giam-gia/data', [MaGiamGiaController::class, 'getDataOpen']);
 Route::post('/admin/ma-giam-gia/create', [MaGiamGiaController::class, 'store'])->middleware("NhanVienMiddle");
 Route::post('/admin/ma-giam-gia/update', [MaGiamGiaController::class, 'update'])->middleware("NhanVienMiddle");
@@ -83,6 +81,7 @@ Route::get('/admin/phan-quyen/data', [PhanQuyenController::class, 'getData'])->m
 Route::post('/admin/phan-quyen/create', [PhanQuyenController::class, 'createData'])->middleware("NhanVienMiddle");
 Route::delete('/admin/phan-quyen/delete/{id}', [PhanQuyenController::class, 'deleteData'])->middleware("NhanVienMiddle");
 Route::put('/admin/phan-quyen/update', [PhanQuyenController::class, 'UpateData'])->middleware("NhanVienMiddle");
+Route::post('/admin/phan-quyen/tim-kiem', [PhanQuyenController::class, 'search'])->middleware("NhanVienMiddle");
 
 Route::get('/admin/chuc-nang/data', [ChucNangController::class, 'getData'])->middleware("NhanVienMiddle");
 
@@ -136,8 +135,6 @@ Route::get('/kiem-tra-khachhang', [KhachHangController::class, 'kiemTraKhachHang
 Route::get('/chi-tiet-san-pham/{id}', [SanPhamController::class, 'layThongTinSanPham']);
 Route::get('/thong-tin-san-pham-tu-danh-muc/{id}', [SanPhamController::class, 'layThongTinSanPhamTuDanhMuc']);
 Route::get('/dai-ly-san-pham/{id}', [SanPhamController::class, 'layThongTinSanPhamDaiLy']);
-
-Route::post('/san-pham/tim-kiem', [SanPhamController::class, 'searchNguoiDung']);
 
 Route::post('/san-pham/tim-kiem', [SanPhamController::class, 'searchNguoiDung']);
 

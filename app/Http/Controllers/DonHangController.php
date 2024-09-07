@@ -20,20 +20,27 @@ class DonHangController extends Controller
             ->first();
         if (!$diaChi) {
             return response()->json([
-                'status'    =>  false,
-                'message'   =>  'Địa chỉ không tồn tại!'
+                'status' => false,
+                'message' => "Địa chỉ chưa được chọn"
+            ]);
+        } else if (count($request->ds_mua_sp) < 1) {
+            return response()->json([
+                'status' => false,
+                'message' => "Giỏ hàng chưa có sản phẩm"
+            ]);
+        } else {
+            $DonHang = DonHang::create([
+                'ma_don_hang'           =>  'Em chưa có, chờ xíu',
+                'id_khach_hang'         =>  $khachHang->id,
+                'id_dia_chi'            =>  $request->id_dia_chi,
+                'tong_tien'             =>  $request->tong_tien,
+                'ma_code_giam'          =>  $request->ma_code_giam,
+                'so_tien_giam'          =>  $request->so_tien_giam,
+                'so_tien_thanh_toan'    =>  $request->so_tien_thanh_toan,
             ]);
         }
-        $DonHang    = DonHang::create([
-            'ma_don_hang'           => 'Bữa sau code',
-            'id_khach_hang'         => $khachHang->id,
-            'id_dia_chi'            => $diaChi->id,
-            'tong_tien'             => 0,
-            'ma_code_giam'          => 'Bữa sau code',
-            'so_tien_giam'          => 0,
-            'so_tien_thanh_toan'    => 0,
-            'is_thanh_toan'         => 0,
-        ]);
+        $DonHang->ma_don_hang    = 'DZ' . $DonHang->id;
+        $DonHang->save();
 
         $tienThanhToan    = 0;
 
@@ -43,22 +50,16 @@ class DonHangController extends Controller
                 ->where('is_gio_hang', 1)
                 ->first();
             if ($chiTiet) {
-                $tienThanhToan  = $tienThanhToan + $chiTiet->thanh_tien;
                 $chiTiet->is_gio_hang   = 0;
                 $chiTiet->id_don_hang   = $DonHang->id;
                 $chiTiet->save();
             }
         }
-
-        // nếu có giảm giá thì sẽ check và giảm giá tại đây
-        $DonHang->so_tien_thanh_toan = $tienThanhToan;
-        $DonHang->save();
-
         // Gửi mail
 
         $x['ho_ten']                    = $khachHang->ho_va_ten;
-        $x['so_tien_thanh_toan']        = $tienThanhToan;
-        $x['link_qr']                   = "https://img.vietqr.io/image/MBBank-1910061030119-qr_only.png?amount=" . $tienThanhToan . "&addInfo=DZ" . $DonHang->id;
+        $x['so_tien_thanh_toan']        = $request->so_tien_thanh_toan;
+        $x['link_qr']                   = "https://img.vietqr.io/image/MBBank-1910061030119-qr_only.png?amount=" . $request->so_tien_thanh_toan . "&addInfo=DZ" . $DonHang->id;
         $x['ds_for']    =  ChiTietDonHang::where('id_khach_hang', $khachHang->id)
                                             ->where('id_don_hang', $DonHang->id)
                                             ->where('is_gio_hang', 0)

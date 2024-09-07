@@ -24,5 +24,6 @@ class SanPham extends Model
         'is_noi_bat',
         'is_flash_sale',
         'sao_danh_gia',
+        'tag',
     ];
 }

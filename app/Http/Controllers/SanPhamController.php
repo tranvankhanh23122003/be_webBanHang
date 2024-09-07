@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class SanPhamController extends Controller
 {
+    public function search(Request $request){
+        $noi_dung_tim = '%'. $request->noi_dung_tim . '%';
+        $data   =  SanPham::where('ten_san_pham', 'like', $noi_dung_tim)
+                            ->orWhere('mo_ta_ngan', 'like', $noi_dung_tim)
+                            ->get();
+        return response()->json([
+            'data'  => $data
+        ]);
+    }
+
     public function searchNguoiDung(Request $request){
         $noi_dung_tim = '%'. $request->noi_dung_tim . '%';
         $data   =  SanPham::where('ten_san_pham', 'like', $noi_dung_tim)
@@ -64,6 +74,7 @@ class SanPhamController extends Controller
             'tinh_trang'  =>$request->tinh_trang,
             'gia_ban'  =>$request->gia_ban,
             'gia_khuyen_mai'  =>$request->gia_khuyen_mai,
+            'tag'               =>$request->tag,
         ]);
         return response()->json([
             'status' => true,
@@ -138,6 +149,7 @@ class SanPhamController extends Controller
             'gia_ban'           =>$request->gia_ban,
             'gia_khuyen_mai'    =>$request->gia_khuyen_mai,
             'sao_danh_gia'      =>$request->sao_danh_gia,
+            'tag'               =>$request->tag,
         ]);
         return response()->json([
             'status' => true,

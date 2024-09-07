@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class PhanQuyenController extends Controller
 {
+    public function search(Request $request){
+        $noi_dung_tim = '%'. $request->noi_dung_tim . '%';
+        $data   =  PhanQuyen::where('ten_quyen', 'like', $noi_dung_tim)
+                            ->get();
+        return response()->json([
+            'data'  => $data
+        ]);
+    }
+
     public function getData()
     {
         $id_chuc_nang = 38;

@@ -42,6 +42,7 @@ class ChiTietPhanQuyenController extends Controller
         
         $data   = ChiTietPhanQuyen::join('chuc_nangs', 'chi_tiet_phan_quyens.id_chuc_nang', 'chuc_nangs.id')
             ->join('phan_quyens', 'chi_tiet_phan_quyens.id_quyen', 'phan_quyens.id')
+            ->where('chi_tiet_phan_quyens.id_quyen', $request->id_quyen)
             ->select('chi_tiet_phan_quyens.*', 'chuc_nangs.ten_chuc_nang', 'phan_quyens.ten_quyen')
             ->get();
 

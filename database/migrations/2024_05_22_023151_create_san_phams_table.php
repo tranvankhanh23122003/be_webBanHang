@@ -27,6 +27,7 @@ return new class extends Migration
             $table->integer('is_noi_bat')->default(0);
             $table->integer('is_flash_sale')->default(0);
             $table->integer('sao_danh_gia');
+            $table->string('tag');
             $table->timestamps();
         });
     }

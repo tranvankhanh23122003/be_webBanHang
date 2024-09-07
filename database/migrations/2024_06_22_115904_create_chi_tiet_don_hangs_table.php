@@ -22,6 +22,7 @@ return new class extends Migration
             $table->double('so_luong');
             $table->double('thanh_tien');
             $table->string('ten_san_pham');
+            $table->integer('tinh_trang');
             $table->timestamps();
         });
     }

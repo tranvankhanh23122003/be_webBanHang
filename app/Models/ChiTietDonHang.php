@@ -21,6 +21,13 @@ class ChiTietDonHang extends Model
         'so_luong',
         'thanh_tien',
         'ten_san_pham',
-        'ghi_chu'
+        'ghi_chu',
+        'tinh_trang'
     ];
+
+    CONST DA_DAT_HANG       = 0;
+    CONST DANG_XU_LY        = 1;
+    CONST DANG_VAN_CHUYEN   = 2;
+    CONST DA_GIAO           = 3;
+    CONST DA_HUY            = 4;
 }

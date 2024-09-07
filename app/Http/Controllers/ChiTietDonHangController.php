@@ -31,6 +31,7 @@ class ChiTietDonHangController extends Controller
                 'so_luong'          =>  $request->so_luong_mua,
                 'thanh_tien'        =>  $sanPham->gia_khuyen_mai * $request->so_luong_mua,
                 'ten_san_pham'      =>  $sanPham->ten_san_pham,
+                'tinh_trang'        =>  0,
             ]);
         }
 
@@ -45,7 +46,10 @@ class ChiTietDonHangController extends Controller
         $khachHang = Auth::guard('sanctum')->user();
 
         $data      = ChiTietDonHang::where('is_gio_hang', 1)    // Đang là giỏ hàng
+            ->join('san_phams', 'san_phams.id', 'chi_tiet_don_hangs.id_san_pham')
+            ->join('dai_lys', 'dai_lys.id', 'chi_tiet_don_hangs.id_dai_ly')
             ->where('id_khach_hang', $khachHang->id)     // Vì giỏ hàng là của từng KH
+            ->select('chi_tiet_don_hangs.*', 'san_phams.hinh_anh', 'dai_lys.ten_doanh_nghiep')
             ->get();
 
         return response()->json([
