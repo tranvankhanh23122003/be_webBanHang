@@ -6,6 +6,7 @@ use App\Http\Requests\KhachHangDangKyRequest;
 use App\Http\Requests\KhachHangDangNhapRequest;
 use App\Http\Requests\KhachHangDoiMatKhauRequest;
 use App\Mail\MasterMail;
+use App\Models\ChiTietPhanQuyen;
 use App\Models\KhachHang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,11 +15,31 @@ use Illuminate\Support\Str;
 
 class KhachHangController extends Controller
 {
+    public function logout(Request $request)
+    {
+
+    }
+
+    public function logoutAll(Request $request)
+    {
+        
+    }
+
     public function dataKhachHang()
     {
         
         $id_chuc_nang = 28;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $data = KhachHang::get();
 
         return response()->json([
@@ -30,7 +51,17 @@ class KhachHangController extends Controller
     {
         
         $id_chuc_nang = 29;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $khach_hang = KhachHang::where('id', $request->id)->first();
 
         if ($khach_hang) {
@@ -55,7 +86,17 @@ class KhachHangController extends Controller
     {
         
         $id_chuc_nang = 30;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $khach_hang = KhachHang::where('id', $request->id)->first();
 
         if ($khach_hang) {
@@ -78,7 +119,17 @@ class KhachHangController extends Controller
     {
         
         $id_chuc_nang = 31;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $khach_hang = KhachHang::where('id', $request->id)->first();
 
         if ($khach_hang) {
@@ -104,7 +155,17 @@ class KhachHangController extends Controller
     {
         
         $id_chuc_nang = 32;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $khach_hang = KhachHang::where('id', $request->id)->first();
 
         if ($khach_hang) {

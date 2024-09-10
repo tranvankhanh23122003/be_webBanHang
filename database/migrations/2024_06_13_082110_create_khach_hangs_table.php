@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('khach_hangs', function (Blueprint $table) {
             $table->id();
+            $table->string('hinh_anh')->nullable();
             $table->string('email')->unique();
             $table->string('so_dien_thoai');
             $table->string('ho_va_ten');

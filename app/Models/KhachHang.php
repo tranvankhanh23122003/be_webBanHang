@@ -14,6 +14,7 @@ class KhachHang extends Authenticatable
     protected $table = "khach_hangs";
     
     protected $fillable = [
+        'hinh_anh',
         'email',
         'so_dien_thoai',
         'ho_va_ten',

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChiTietPhanQuyen;
 use App\Models\DanhMuc;
 use App\Models\SanPham;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ThongKeController extends Controller
@@ -12,7 +14,17 @@ class ThongKeController extends Controller
     public function thongKe1(Request $request)
     {
         $id_chuc_nang = 47;
-
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $data = DanhMuc::join('san_phams', 'danh_mucs.id', 'san_phams.id_danh_muc')
                        ->whereDate('san_phams.created_at', ">=", $request->tu_ngay)
                        ->whereDate('san_phams.created_at', "<=", $request->den_ngay)

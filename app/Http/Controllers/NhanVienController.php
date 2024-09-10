@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminDangNhapRequest;
+use App\Models\ChiTietPhanQuyen;
 use App\Models\NhanVien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,20 @@ class NhanVienController extends Controller
     {
         
         $id_chuc_nang = 22;
-        
-        $data = NhanVien::get(); //Nghia la lay ra
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
+        $data = NhanVien::join('phan_quyens', 'nhan_viens.id_quyen', 'phan_quyens.id')
+                        ->select('nhan_viens.*', 'phan_quyens.ten_quyen')
+                        ->get(); //Nghia la lay ra
 
         return response()->json([
             'data' => $data
@@ -24,7 +37,17 @@ class NhanVienController extends Controller
     {
         
         $id_chuc_nang = 23;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         NhanVien::create([
             'email'         => $request->email,
             'password'      => bcrypt($request->password),
@@ -43,7 +66,17 @@ class NhanVienController extends Controller
     {
         
         $id_chuc_nang = 24;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         //table danh mục tìm id = $request->id và sau đó xóa nó đi
         NhanVien::find($request->id)->delete();
         return response()->json([
@@ -55,7 +88,17 @@ class NhanVienController extends Controller
     {
         
         $id_chuc_nang = 27;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $email = $request->email;
         $check = NhanVien::where('email', $email)->first();
         if ($check) {
@@ -74,7 +117,17 @@ class NhanVienController extends Controller
     {
         
         $id_chuc_nang = 25;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         NhanVien::find($request->id)->update([
             'email'         => $request->email,
             'ho_va_ten'     => $request->ho_va_ten,
@@ -134,7 +187,17 @@ class NhanVienController extends Controller
     {
         
         $id_chuc_nang = 26;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $nhanVien = NhanVien::where('id', $request->id)->first();
 
         if($nhanVien) {

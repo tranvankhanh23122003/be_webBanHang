@@ -25,6 +25,7 @@ class NhanVienSeeding extends Seeder
                 'so_dien_thoai'     =>  '0905.523.543',
                 'dia_chi'           =>  'Đà Nẵng',
                 'tinh_trang'        =>  1,
+                'id_quyen'          =>  1,
             ],
             [
                 'email'             =>  'dzfullstack@gmail.com',
@@ -33,6 +34,7 @@ class NhanVienSeeding extends Seeder
                 'so_dien_thoai'     =>  '03.888.24.999',
                 'dia_chi'           =>  'Đà Nẵng',
                 'tinh_trang'        =>  1,
+                'id_quyen'          =>  2,
             ],
         ]);
     }

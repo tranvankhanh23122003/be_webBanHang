@@ -19,6 +19,10 @@ use App\Http\Controllers\ThongKeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/khach-hang/dang-xuat', [KhachHangController::class, 'logout']);
+Route::post('/khach-hang/dang-xuat-all', [KhachHangController::class, 'logoutAll']);
+
+
 Route::get('/giao-dich', [GiaoDichController::class, 'index']);
 Route::get('/text', [GiaoDichController::class, 'convertToId']);
 
@@ -89,6 +93,8 @@ Route::post('/admin/chi-tiet-phan-quyen/cap-quyen', [ChiTietPhanQuyenController:
 Route::post('/admin/chi-tiet-phan-quyen/danh-sach', [ChiTietPhanQuyenController::class, 'getData'])->middleware("NhanVienMiddle");
 Route::post('/admin/chi-tiet-phan-quyen/xoa-quyen', [ChiTietPhanQuyenController::class, 'xoaQuyen'])->middleware("NhanVienMiddle");
 
+Route::get('/admin/lich-su-don-hang', [DonHangController::class, 'getDataLSAD'])->middleware("NhanVienMiddle");
+
 Route::get('/dai-ly/san-pham/data', [SanPhamDaiLyController::class, 'getData'])->middleware("DaiLyMiddle");
 Route::post('/dai-ly/san-pham/create', [SanPhamDaiLyController::class, 'store'])->middleware("DaiLyMiddle");
 Route::post('/dai-ly/san-pham/delete', [SanPhamDaiLyController::class, 'xoaSP'])->middleware("DaiLyMiddle");
@@ -108,6 +114,8 @@ Route::post('/dai-ly/quen-mat-khau', [DaiLyController::class, 'quenMK']);
 Route::post('/dai-ly/doi-mat-khau', [DaiLyController::class, 'doiMK']);
 Route::get('/dai-ly/profile/data', [DaiLyController::class, 'getDataProfile'])->middleware("DaiLyMiddle");
 Route::post('/dai-ly/profile/update', [DaiLyController::class, 'updateProfile'])->middleware("DaiLyMiddle");
+Route::get('/dai-ly/lich-su-don-hang', [DonHangController::class, 'getDataLSDL'])->middleware("DaiLyMiddle");
+Route::post('/dai-ly/lich-su-don-hang/change-status', [DonHangController::class, 'changeStatusLSDL'])->middleware("DaiLyMiddle");
 
 Route::post('/khach-hang/dang-nhap', [KhachHangController::class, 'dangNhap']);
 Route::post('/khach-hang/dang-ky', [KhachHangController::class, 'dangKy']);
@@ -127,6 +135,7 @@ Route::post('/khach-hang/gio-hang/delete', [ChiTietDonHangController::class, 'de
 Route::post('/khach-hang/gio-hang/update', [ChiTietDonHangController::class, 'updateGioHang'])->middleware("KhachHangMiddle");
 
 Route::post('/khach-hang/don-hang/create', [DonHangController::class, 'store'])->middleware("KhachHangMiddle");
+Route::get('/khach-hang/lich-su-don-hang', [DonHangController::class, 'getDataLS'])->middleware("KhachHangMiddle");
 
 Route::get('/kiem-tra-admin', [NhanVienController::class, 'kiemTraAdmin']);
 Route::get('/kiem-tra-daily', [DaiLyController::class, 'kiemTraDaiLy']);

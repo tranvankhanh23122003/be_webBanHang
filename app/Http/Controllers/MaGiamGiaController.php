@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChiTietPhanQuyen;
 use App\Models\MaGiamGia;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MaGiamGiaController extends Controller
 {
@@ -12,7 +14,17 @@ class MaGiamGiaController extends Controller
     {
         
         $id_chuc_nang = 33;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $data = MaGiamGia::get();
 
         return response()->json([
@@ -56,7 +68,17 @@ class MaGiamGiaController extends Controller
     {
         
         $id_chuc_nang = 34;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         MaGiamGia::create($request->all());
         return response()->json([
             'status' => true,
@@ -67,7 +89,17 @@ class MaGiamGiaController extends Controller
     {
         
         $id_chuc_nang = 35;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         //table danh mục tìm id = $request->id và sau đó xóa nó đi
         MaGiamGia::where('id', $request->id)->delete();
         return response()->json([
@@ -80,7 +112,17 @@ class MaGiamGiaController extends Controller
     {
         
         $id_chuc_nang = 36;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         MaGiamGia::where('id', $request->id)->update([
             'code'                  => $request->code,
             'tinh_trang'            => $request->tinh_trang,
@@ -100,7 +142,17 @@ class MaGiamGiaController extends Controller
     {
         
         $id_chuc_nang = 37;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $maGiamGia = MaGiamGia::where('id', $request->id)->first();
 
         if($maGiamGia) {

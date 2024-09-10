@@ -6,6 +6,7 @@ use App\Http\Requests\DaiLyDangKyRequest;
 use App\Http\Requests\DaiLyDangNhapRequest;
 use App\Http\Requests\DaiLyDoiMatKhauRequest;
 use App\Mail\MasterMail;
+use App\Models\ChiTietPhanQuyen;
 use App\Models\DaiLy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,17 @@ class DaiLyController extends Controller
     {
         
         $id_chuc_nang = 15;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $data = DaiLy::get(); //Nghia la lay ra
 
         return response()->json([
@@ -29,7 +40,17 @@ class DaiLyController extends Controller
     {
         
         $id_chuc_nang = 16;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         DaiLy::create([
             'ho_va_ten' => $request->ho_va_ten,
             'email' => $request->email,
@@ -50,7 +71,17 @@ class DaiLyController extends Controller
     {
         
         $id_chuc_nang = 17;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         //table danh mục tìm id = $request->id và sau đó xóa nó đi
         DaiLy::find($request->id)->delete();
         return response()->json([
@@ -62,7 +93,17 @@ class DaiLyController extends Controller
     {
         
         $id_chuc_nang = 21;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $email = $request->email;
         $check = DaiLy::where('email', $email)->first();
         if ($check) {
@@ -81,7 +122,17 @@ class DaiLyController extends Controller
     {
         
         $id_chuc_nang = 18;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         DaiLy::find($request->id)->update([
             'ho_va_ten' => $request->ho_va_ten,
             'email' => $request->email,
@@ -140,7 +191,17 @@ class DaiLyController extends Controller
     {
         
         $id_chuc_nang = 19;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $daiLy = DaiLy::where('id', $request->id)->first();
 
         if($daiLy) {
@@ -167,7 +228,17 @@ class DaiLyController extends Controller
     {
         
         $id_chuc_nang = 20;
-        
+        $login = Auth::guard('sanctum')->user();
+        $id_quyen = $login->$id_chuc_nang;
+        $check_quyen = ChiTietPhanQuyen::where('id_quyen', $id_quyen)
+            ->where('id_chuc_nang', $id_chuc_nang)
+            ->first();
+        if ($check_quyen) {
+            return response()->json([
+                'data' => false,
+                'message' => "bạn không có quyền thực hiện chức năng này!"
+            ]);
+        }
         $daiLy = DaiLy::where('id', $request->id)->first();
 
         if($daiLy) {

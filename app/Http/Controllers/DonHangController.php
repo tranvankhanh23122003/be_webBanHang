@@ -61,16 +61,80 @@ class DonHangController extends Controller
         $x['so_tien_thanh_toan']        = $request->so_tien_thanh_toan;
         $x['link_qr']                   = "https://img.vietqr.io/image/MBBank-1910061030119-qr_only.png?amount=" . $request->so_tien_thanh_toan . "&addInfo=DZ" . $DonHang->id;
         $x['ds_for']    =  ChiTietDonHang::where('id_khach_hang', $khachHang->id)
-                                            ->where('id_don_hang', $DonHang->id)
-                                            ->where('is_gio_hang', 0)
-                                            ->join('san_phams', 'chi_tiet_don_hangs.id_san_pham', 'san_phams.id')
-                                            ->select('chi_tiet_don_hangs.*', 'san_phams.hinh_anh',)
-                                            ->get();
+            ->where('id_don_hang', $DonHang->id)
+            ->where('is_gio_hang', 0)
+            ->join('san_phams', 'chi_tiet_don_hangs.id_san_pham', 'san_phams.id')
+            ->select('chi_tiet_don_hangs.*', 'san_phams.hinh_anh',)
+            ->get();
         Mail::to($khachHang->email)->send(new MasterMail('Xác Nhận Đơn Hàng', 'xac_nhan_don_hang', $x));
 
         return response()->json([
             'status'    =>  true,
             'message'   =>  'Mua hàng thành công! <br> vui long kiểm tra mail để thanh toán!'
+        ]);
+    }
+
+    public function getDataLS()
+    {
+        $khachHang  = Auth::guard('sanctum')->user();
+        $data = ChiTietDonHang::where('chi_tiet_don_hangs.id_khach_hang', $khachHang->id)
+                            ->join('don_hangs' , 'chi_tiet_don_hangs.id_don_hang', 'don_hangs.id')
+                            ->join('san_phams', 'chi_tiet_don_hangs.id_san_pham', 'san_phams.id')
+                            ->join('khach_hangs', 'chi_tiet_don_hangs.id_khach_hang', 'khach_hangs.id')
+                            ->join('dia_chis', 'khach_hangs.id', 'dia_chis.id_khach_hang')
+                            ->join('dai_lys', 'chi_tiet_don_hangs.id_dai_ly', 'dai_lys.id')
+                            ->select('don_hangs.ma_don_hang', 'don_hangs.is_thanh_toan', 'san_phams.ten_san_pham', 'dai_lys.ten_doanh_nghiep', 'dia_chis.ten_nguoi_nhan', 'dia_chis.dia_chi', 'dia_chis.so_dien_thoai', 'chi_tiet_don_hangs.*')
+                            ->get();
+        return response()->json([
+            'data'    =>  $data,
+        ]);
+    }
+
+    public function getDataLSDL()
+    {
+        $daiLy  = Auth::guard('sanctum')->user();
+        $data = ChiTietDonHang::where('chi_tiet_don_hangs.id_dai_ly', $daiLy->id)
+                            ->join('don_hangs' , 'chi_tiet_don_hangs.id_don_hang', 'don_hangs.id')
+                            ->join('san_phams', 'chi_tiet_don_hangs.id_san_pham', 'san_phams.id')
+                            ->join('khach_hangs', 'chi_tiet_don_hangs.id_khach_hang', 'khach_hangs.id')
+                            ->join('dia_chis', 'khach_hangs.id', 'dia_chis.id_khach_hang')
+                            ->join('dai_lys', 'chi_tiet_don_hangs.id_dai_ly', 'dai_lys.id')
+                            ->select('don_hangs.ma_don_hang', 'don_hangs.is_thanh_toan', 'san_phams.ten_san_pham', 'dai_lys.ten_doanh_nghiep', 'dia_chis.ten_nguoi_nhan', 'dia_chis.dia_chi', 'dia_chis.so_dien_thoai', 'chi_tiet_don_hangs.*')
+                            ->get();
+        return response()->json([
+            'data'    =>  $data,
+        ]);
+    }
+
+    public function changeStatusLSDL(Request $request)
+    {
+        $daiLy  = Auth::guard('sanctum')->user();
+        $ctdh = ChiTietDonHang::where('id', $request->id)->where('id_dai_ly', $daiLy->id)->first();
+        if($ctdh) {
+            $ctdh->tinh_trang = $request->tinh_trang;
+            $ctdh->save();
+            return response()->json([
+                'status'    =>  true,
+                'message'   =>  'Đổi tình trạng đơn hàng thành công!'
+            ]);
+        }   
+        return response()->json([
+            'status'    =>  false,
+            'message'   =>  'Có lỗi xảy ra!'
+        ]);     
+    }
+
+    public function getDataLSAD()
+    {
+        $data = ChiTietDonHang::join('don_hangs' , 'chi_tiet_don_hangs.id_don_hang', 'don_hangs.id')
+                            ->join('san_phams', 'chi_tiet_don_hangs.id_san_pham', 'san_phams.id')
+                            ->join('khach_hangs', 'chi_tiet_don_hangs.id_khach_hang', 'khach_hangs.id')
+                            ->join('dia_chis', 'khach_hangs.id', 'dia_chis.id_khach_hang')
+                            ->join('dai_lys', 'chi_tiet_don_hangs.id_dai_ly', 'dai_lys.id')
+                            ->select('don_hangs.ma_don_hang', 'don_hangs.is_thanh_toan', 'san_phams.ten_san_pham', 'dai_lys.ten_doanh_nghiep', 'dia_chis.ten_nguoi_nhan', 'dia_chis.dia_chi', 'dia_chis.so_dien_thoai', 'chi_tiet_don_hangs.*')
+                            ->get();
+        return response()->json([
+            'data'    =>  $data,
         ]);
     }
 }
