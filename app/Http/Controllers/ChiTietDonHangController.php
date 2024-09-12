@@ -23,7 +23,7 @@ class ChiTietDonHangController extends Controller
             $chiTiet->thanh_tien    =   $chiTiet->so_luong * $chiTiet->don_gia;
             $chiTiet->save();
         } else {
-            ChiTietDonHang::create([
+            $chiTiet = ChiTietDonHang::create([
                 'id_san_pham'       =>  $sanPham->id,
                 'id_khach_hang'     =>  $khachHang->id,
                 'id_dai_ly'         =>  $sanPham->id_dai_ly,
@@ -37,7 +37,8 @@ class ChiTietDonHangController extends Controller
 
         return response()->json([
             'status'    =>  true,
-            'message'   =>  'Đã thêm vào giỏ hàng thành công'
+            'message'   =>  'Đã thêm vào giỏ hàng thành công',
+            'chi_tiet'  => $chiTiet
         ]);
     }
 

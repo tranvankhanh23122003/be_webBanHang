@@ -20,7 +20,12 @@ class KhachHangMiddleware
         if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\KhachHang) {
             return $next($request);
         } else {
-            return response()->json("Em không biết, anh đi ra đi!");
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'Bạn cần đăng nhập!'
+                ]
+            );
         }
     }
 }

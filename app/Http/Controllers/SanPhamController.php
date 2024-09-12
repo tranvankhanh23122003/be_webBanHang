@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChiTietDonHang;
 use App\Models\ChiTietPhanQuyen;
 use App\Models\SanPham;
 use Illuminate\Http\Request;
@@ -273,10 +274,12 @@ class SanPhamController extends Controller
     public function layThongTinSanPham($id)
     {
         $data   = SanPham::where('id', $id)->where('tinh_trang', 1)->first();
+        $chiTiet = ChiTietDonHang::where('id_san_pham', $data->id)->where('tinh_trang', 3)->get();
         if($data) {
             return response()->json([
                 'status'  => true,
-                'data'    => $data
+                'data'    => $data,
+                'order'    => count($chiTiet),
             ]);
         } else {
             return response()->json([

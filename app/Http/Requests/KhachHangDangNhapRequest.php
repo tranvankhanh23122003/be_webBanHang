@@ -24,6 +24,7 @@ class KhachHangDangNhapRequest extends FormRequest
         return [
             'email' => 'required|email|max:255|exists:khach_hangs,email',
             'password' => 'required',
+            'code'  => 'required'
         ];
     }
 

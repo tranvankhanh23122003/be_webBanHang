@@ -20,5 +20,6 @@ class DonHang extends Model
         'so_tien_giam',
         'so_tien_thanh_toan',
         'is_thanh_toan',
+        'phuong_thuc',
     ];
 }

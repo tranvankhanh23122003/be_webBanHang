@@ -8,7 +8,7 @@
     <meta name="x-apple-disable-message-reformatting">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="telephone=no" name="format-detection">
-    <title>Xác Nhận Đơn Đặt Hàng Thanh Toán Online</title><!--[if (mso 16)]>
+    <title>Xác Nhận Đơn Đặt Hàng Thanh Toán COD</title><!--[if (mso 16)]>
     <style type="text/css">
     a {text-decoration: none;}
     </style>
@@ -461,7 +461,7 @@
                                                                             style="line-height:150% !important">{{$data["ho_ten"]}}</strong><span
                                                                             style="line-height:150% !important">, Chúng
                                                                             tôi xin trân trọng thông báo rằng đơn hàng
-                                                                            của Quý khách đã được đặt thành công, vui lòng quét mã thanh toán để đơn hàng được giao đến Quý Khách.
+                                                                            của Quý khách đã được đặt thành công, quý khách vui lòng theo dõi đơn hàng và điện thoại để nhận hàng giao đến Quý Khách.
                                                                     </p>
                                                                 </td>
                                                             </tr>
@@ -753,37 +753,6 @@
                                                             </tr>
                                                         </table>
                                                     </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
-                                            <table cellpadding="0" cellspacing="0" width="100%"
-                                                role="presentation"
-                                                style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                                                <tr>
-                                                    <td align="left" class="es-m-txt-l" style="padding:0;Margin:0">
-                                                        <h2 style="Margin:0;font-family:arial, 'helvetica neue', helvetica, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:26px;font-style:normal;font-weight:bold;line-height:31px !important;color:#333333"
-                                                            align="center"> QUÉT MÃ THANH TOÁN </h2>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="es-m-p0r" valign="top" align="center"
-                                            style="padding:0;Margin:0;width:560px">
-                                            <table cellpadding="0" cellspacing="0" width="100%"
-                                                role="presentation"
-                                                style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                                                <tr>
-                                                    <td align="center"
-                                                        style="Margin:0;padding-left:10px;padding-right:10px;padding-top:25px;padding-bottom:25px;font-size:0">
-                                                        <img src="{{$data["link_qr"]}}"
-                                                            alt
-                                                            style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"
-                                                            width="200"></td>
                                                 </tr>
                                             </table>
                                         </td>

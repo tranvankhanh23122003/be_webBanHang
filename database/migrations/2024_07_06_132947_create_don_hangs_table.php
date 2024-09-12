@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('so_tien_giam')->default(0);
             $table->integer('so_tien_thanh_toan');
             $table->integer('is_thanh_toan')->default(0);
+            $table->integer('phuong_thuc')->comment('0: thanh toán online, 1: thanh toán cod');
             $table->timestamps();
         });
     }

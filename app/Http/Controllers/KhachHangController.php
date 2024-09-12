@@ -10,6 +10,8 @@ use App\Models\ChiTietPhanQuyen;
 use App\Models\KhachHang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -17,12 +19,40 @@ class KhachHangController extends Controller
 {
     public function logout(Request $request)
     {
-
+        $khach_hang   = Auth::guard('sanctum')->user();
+        if ($khach_hang && $khach_hang instanceof \App\Models\KhachHang) {
+            DB::table('personal_access_tokens')
+                ->where('id', $khach_hang->currentAccessToken()->id)->delete();
+            return response()->json([
+                'status' => true,
+                'message' => "Bạn đã đăng xuất thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "bạn chưa đăng nhập hệ thống!"
+            ]);
+        }
     }
 
     public function logoutAll(Request $request)
     {
-        
+        $khach_hang   = Auth::guard('sanctum')->user();
+        if ($khach_hang && $khach_hang instanceof \App\Models\KhachHang) {
+            $ds_token = $khach_hang->tokens;
+            foreach ($ds_token as $key => $value) {
+                $value->delete();
+            }
+            return response()->json([
+                'status' => true,
+                'message' => "Bạn đã đăng xuất thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "bạn chưa đăng nhập hệ thống!"
+            ]);
+        }
     }
 
     public function dataKhachHang()
@@ -208,26 +238,33 @@ class KhachHangController extends Controller
 
     public function dangNhap(KhachHangDangNhapRequest $request)
     {
-        $check  =   Auth::guard('khachhang')->attempt([
-            'email'     => $request->email,
-            'password'  => $request->password
+        $res = Http::get("https://www.google.com/recaptcha/api/siteverify", [
+            'secret' => env('KEY_PRIVATE'),
+            'response' => $request->code
         ]);
+        if ($res->json()["success"] == true) {
 
-        if ($check) {
-            // Lấy thông tin tài khoản đã đăng nhập thành công
-            $khach_hang  =   Auth::guard('khachhang')->user(); // Lấy được thông tin đại lý đã đăng nhập
+            $check  =   Auth::guard('khachhang')->attempt([
+                'email'     => $request->email,
+                'password'  => $request->password
+            ]);
 
-            return response()->json([
-                'status'    => true,
-                'message'   => "Đã đăng nhập thành công!",
-                'token'     => $khach_hang->createToken('token_khach_hang')->plainTextToken,
-                'ten_kh'    => $khach_hang->ho_va_ten
-            ]);
-        } else {
-            return response()->json([
-                'status'    => false,
-                'message'   => "Tài khoản hoặc mật khẩu không đúng!",
-            ]);
+            if ($check) {
+                // Lấy thông tin tài khoản đã đăng nhập thành công
+                $khach_hang  =   Auth::guard('khachhang')->user(); // Lấy được thông tin đại lý đã đăng nhập
+
+                return response()->json([
+                    'status'    => true,
+                    'message'   => "Đã đăng nhập thành công!",
+                    'token'     => $khach_hang->createToken('token_khach_hang')->plainTextToken,
+                    'ten_kh'    => $khach_hang->ho_va_ten
+                ]);
+            } else {
+                return response()->json([
+                    'status'    => false,
+                    'message'   => "Tài khoản hoặc mật khẩu không đúng!",
+                ]);
+            }
         }
     }
 
