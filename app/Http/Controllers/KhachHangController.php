@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Log;
 
 class KhachHangController extends Controller
 {
@@ -57,7 +59,7 @@ class KhachHangController extends Controller
 
     public function dataKhachHang()
     {
-        
+
         $id_chuc_nang = 28;
         $login = Auth::guard('sanctum')->user();
         $id_quyen = $login->$id_chuc_nang;
@@ -79,7 +81,7 @@ class KhachHangController extends Controller
 
     public function kichHoatTaiKhoan(Request $request)
     {
-        
+
         $id_chuc_nang = 29;
         $login = Auth::guard('sanctum')->user();
         $id_quyen = $login->$id_chuc_nang;
@@ -114,7 +116,7 @@ class KhachHangController extends Controller
 
     public function doiTrangThaiKhachHang(Request $request)
     {
-        
+
         $id_chuc_nang = 30;
         $login = Auth::guard('sanctum')->user();
         $id_quyen = $login->$id_chuc_nang;
@@ -147,7 +149,7 @@ class KhachHangController extends Controller
 
     public function updateTaiKhoan(Request $request)
     {
-        
+
         $id_chuc_nang = 31;
         $login = Auth::guard('sanctum')->user();
         $id_quyen = $login->$id_chuc_nang;
@@ -183,7 +185,7 @@ class KhachHangController extends Controller
 
     public function deleteTaiKhoan(Request $request)
     {
-        
+
         $id_chuc_nang = 32;
         $login = Auth::guard('sanctum')->user();
         $id_quyen = $login->$id_chuc_nang;
@@ -238,40 +240,54 @@ class KhachHangController extends Controller
 
     public function dangNhap(KhachHangDangNhapRequest $request)
     {
+        // Log thông tin yêu cầu
+        Log::info('Dữ liệu đăng nhập:', $request->all());
+
         $res = Http::get("https://www.google.com/recaptcha/api/siteverify", [
             'secret' => env('KEY_PRIVATE'),
             'response' => $request->code
         ]);
-        if ($res->json()["success"] == true) {
 
-            $check  =   Auth::guard('khachhang')->attempt([
-                'email'     => $request->email,
-                'password'  => $request->password
+        // Kiểm tra xem có nhận được giá trị từ Google reCaptcha không
+        Log::info('Google reCaptcha response: ', $res->json());
+
+        if ($res->json()["success"] == true) {
+            $check = Auth::guard('khachhang')->attempt([
+                'email' => $request->email,
+                'password' => $request->password
             ]);
 
+            // Log kết quả đăng nhập
+            Log::info('Kết quả đăng nhập: ', ['check' => $check]);
+
             if ($check) {
-                // Lấy thông tin tài khoản đã đăng nhập thành công
-                $khach_hang  =   Auth::guard('khachhang')->user(); // Lấy được thông tin đại lý đã đăng nhập
+                $khach_hang = Auth::guard('khachhang')->user();
+                $token = $khach_hang->createToken('token_khach_hang')->plainTextToken;
 
                 return response()->json([
-                    'status'    => true,
-                    'message'   => "Đã đăng nhập thành công!",
-                    'token'     => $khach_hang->createToken('token_khach_hang')->plainTextToken,
-                    'ten_kh'    => $khach_hang->ho_va_ten
+                    'status' => true,
+                    'message' => "Đã đăng nhập thành công!",
+                    'token' => $token,
+                    'ten_kh' => $khach_hang->ho_va_ten
                 ]);
             } else {
                 return response()->json([
-                    'status'    => false,
-                    'message'   => "Tài khoản hoặc mật khẩu không đúng!",
-                ]);
+                    'status' => false,
+                    'message' => "Tài khoản hoặc mật khẩu không đúng!"
+                ], 400);
             }
         }
+
+        return response()->json([
+            'status' => false,
+            'message' => "reCaptcha không thành công!"
+        ], 400);
     }
 
     public function kiemTraKhachHang()
     {
         $tai_khoan_dang_dang_nhap   = Auth::guard('sanctum')->user();
-        if($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\KhachHang) {
+        if ($tai_khoan_dang_dang_nhap && $tai_khoan_dang_dang_nhap instanceof \App\Models\KhachHang) {
             return response()->json([
                 'status'    =>  true
             ]);
@@ -300,7 +316,7 @@ class KhachHangController extends Controller
             'ho_va_ten'     => $request->ho_va_ten,
         ]);
 
-        if($check) {
+        if ($check) {
             return response()->json([
                 'status'    =>  true,
                 'message'   =>  'Cập nhật profile thành công'
@@ -334,7 +350,7 @@ class KhachHangController extends Controller
     public function quenMK(Request $request)
     {
         $khach_hang = KhachHang::where('email', $request->email)->first();
-        if($khach_hang){
+        if ($khach_hang) {
             $hash_reset         = Str::uuid();
             $x['ho_va_ten']     = $khach_hang->ho_va_ten;
             $x['link']          = 'http://localhost:5173/khach-hang/doi-mat-khau/' . $hash_reset;
@@ -363,6 +379,31 @@ class KhachHangController extends Controller
         return response()->json([
             'status'    =>  true,
             'message'   =>  'Đã đổi mật khẩu thành công'
+        ]);
+    }
+    public function changeAnhDaiDien(Request $request)
+    {
+        $user = Auth::guard('sanctum')->user();
+        $data = $request->all();
+        $file = $data['hinh_anh'];
+        // $file_name = $file->getClientOriginalName(); //Lấy tên file (vd: avt1.jpg)
+        $file_extention = $file->getClientOriginalExtension(); // lay extention file (jpg, png)
+        $file_name = Str::slug($user->ho_va_ten) . "." . $file_extention; // Nguyễn Quốc Long => nguyen-quo
+
+        $cho_luu = "KhachHangAVT\\" . $file_name;
+
+        $file->move("KhachHangAVT", $file_name);
+        $hinh_anh = "http://127.0.0.1:8000/" . $cho_luu;
+        KhachHang::find($user->id)->update([
+            'hinh_anh' => $hinh_anh
+        ]);
+
+        return response()->json([
+            'status'
+            =>
+            true,
+            'message'
+            => 'Đã đổi ảnh đại diện thành công!'
         ]);
     }
 }
